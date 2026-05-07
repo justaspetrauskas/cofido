@@ -628,13 +628,10 @@ export function BrewingScreen({
             remainingSeconds={remainingTimerSeconds}
             totalSeconds={currentBrewStep.timerSeconds}
           >
-            <span>{currentBrewStep.visual}</span>
+            <span>{remainingTimerSeconds !== null ? formatTimer(remainingTimerSeconds) : "Ready"}</span>
           </TimerRing>
           <div className={styles.timerDetails}>
             <p className={styles.panelLabel}>{VISUAL_LABELS[currentBrewStep.visual]}</p>
-            <strong className={styles.timerText}>
-              {remainingTimerSeconds !== null ? formatTimer(remainingTimerSeconds) : "Ready"}
-            </strong>
             <p className={styles.timerNote}>
               {currentBrewStep.timerSeconds
                 ? "Let the timer guide the pace."

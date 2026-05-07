@@ -663,7 +663,7 @@ export function TimerRing({
           data-total={totalSeconds ?? "none"}
         />
       </svg>
-      <div className={styles.timerRingContent}>{children}</div>
+      <div className={styles.timerRingContent} data-testid="timer-ring-content">{children}</div>
     </div>
   );
 }
