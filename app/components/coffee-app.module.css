@@ -1,0 +1,1169 @@
+.shell {
+  min-height: 100vh;
+  padding: 0 24px 56px;
+  background:
+    radial-gradient(circle at top, rgba(233, 169, 101, 0.18), transparent 28%),
+    linear-gradient(180deg, #0f0f12 0%, #17171c 48%, #111216 100%);
+  color: #f5efe8;
+}
+
+.frame {
+  position: relative;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  padding-inline: clamp(8px, 4vw, 56px);
+  overflow: visible;
+}
+
+.persistentMotionField {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.card {
+  position: relative;
+  grid-area: 1 / 1;
+  z-index: 1;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 48px 0 72px;
+  overflow: visible;
+}
+
+.copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(100%, 860px);
+  max-width: 860px;
+  margin: 0 auto;
+  padding-inline: clamp(0px, 3vw, 24px);
+}
+
+.screenBody {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: min(100%, 960px);
+  margin: 0 auto;
+  padding-inline: clamp(0px, 3vw, 24px);
+  align-items: stretch;
+}
+
+.cutoutField {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+}
+
+.cutout {
+  position: absolute;
+  opacity: 0.34;
+  filter: blur(1.2px);
+  mix-blend-mode: screen;
+}
+
+.cutoutLeaf {
+  inset: 2% auto auto -6%;
+  width: 320px;
+  height: 380px;
+  background: linear-gradient(180deg, rgba(241, 197, 144, 0.16), rgba(201, 133, 73, 0.06));
+  clip-path: path("M 140 0 C 240 46 272 172 194 284 C 150 346 82 346 38 280 C -8 208 6 70 140 0 Z");
+}
+
+.cutoutPetal {
+  inset: 10% 4% auto auto;
+  width: 280px;
+  height: 200px;
+  background: rgba(204, 96, 70, 0.14);
+  clip-path: ellipse(46% 36% at 52% 50%);
+}
+
+.cutoutPool {
+  inset: auto 12% 8% auto;
+  width: 380px;
+  height: 250px;
+  background: linear-gradient(135deg, rgba(79, 50, 42, 0.08), rgba(235, 174, 115, 0.08));
+  clip-path: path("M 32 122 C 50 38 188 -6 272 30 C 346 62 334 176 260 210 C 162 254 8 222 32 122 Z");
+}
+
+.cutoutStem {
+  inset: auto auto 10% 4%;
+  width: 180px;
+  height: 360px;
+  background: linear-gradient(180deg, rgba(231, 214, 184, 0.1), rgba(231, 214, 184, 0));
+  clip-path: path("M 72 0 C 112 70 92 176 136 300 L 98 300 C 54 184 56 92 24 0 Z");
+}
+
+.screenFlow {
+  position: absolute;
+  inset: 12% 18% auto -10%;
+  height: 240px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(233, 169, 101, 0), rgba(233, 169, 101, 0.08), rgba(255, 246, 236, 0.06), rgba(233, 169, 101, 0));
+  filter: blur(38px);
+  transform-origin: center;
+  z-index: 0;
+}
+
+.screenMist {
+  position: absolute;
+  inset: auto -8% 8% 28%;
+  height: 300px;
+  border-radius: 46% 54% 58% 42%;
+  background: radial-gradient(circle, rgba(255, 246, 236, 0.07), rgba(233, 169, 101, 0.03), transparent 72%);
+  filter: blur(28px);
+  z-index: 0;
+}
+
+.screenAura {
+  position: absolute;
+  inset: -18% auto auto 62%;
+  width: 340px;
+  height: 340px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 246, 236, 0.08), rgba(233, 169, 101, 0.02), transparent 72%);
+  filter: blur(14px);
+  z-index: 0;
+}
+
+.eyebrow,
+.panelLabel,
+.fieldLabel,
+.metricCard span,
+.methodBadge,
+.statusChip {
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #b7a89a;
+}
+
+.title {
+  max-width: 14ch;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-size: clamp(2.6rem, 8vw, 4.6rem);
+  font-weight: 650;
+  line-height: 0.92;
+  letter-spacing: -0.06em;
+  color: #f8f3ec;
+}
+
+.description {
+  max-width: 42rem;
+  color: #c7bbb0;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.brewStack {
+  gap: 18px;
+}
+
+.heroPanel,
+.quickStartPanel,
+.summaryHero,
+.controlPanel,
+.stepPreviewCard,
+.dashboardInsight,
+.dashboardHero,
+.savedPanel,
+.brewHero,
+.timerStage {
+  position: relative;
+  border-radius: 30px;
+  width: 100%;
+}
+
+.heroPanel::before,
+.quickStartPanel::before,
+.summaryHero::before,
+.controlPanel::before,
+.stepPreviewCard::before,
+.dashboardInsight::before,
+.dashboardHero::before,
+.savedPanel::before,
+.brewHero::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+  opacity: 0.5;
+}
+
+.heroPanel {
+  position: relative;
+  overflow: visible;
+  padding: 34px 0 22px;
+}
+
+.summaryHero,
+.timerStage {
+  position: relative;
+  overflow: visible;
+}
+
+.heroGlow {
+  position: absolute;
+  inset: -25% auto auto 60%;
+  width: 260px;
+  height: 260px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(233, 169, 101, 0.42), transparent 68%);
+  filter: blur(8px);
+}
+
+.ambientScene {
+  position: absolute;
+  inset: auto -2% -6% auto;
+  width: 260px;
+  height: 260px;
+  pointer-events: none;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  opacity: 0.9;
+}
+
+.sceneLanding {
+  inset: auto -4% -10% auto;
+}
+
+.sceneComposer {
+  inset: 6% -2% auto auto;
+  width: 240px;
+  height: 240px;
+}
+
+.sceneBrewing {
+  inset: 50%;
+  width: 220px;
+  height: 220px;
+  transform: translateY(-50%);
+}
+
+.sceneCompletion {
+  inset: auto 2% -8% auto;
+  width: 220px;
+  height: 220px;
+}
+
+.sceneHalo,
+.sceneBean,
+.sceneRibbon {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+}
+
+.sceneHalo {
+  background: radial-gradient(circle, rgba(233, 169, 101, 0.28), transparent 68%);
+  filter: blur(14px);
+}
+
+.sceneBean {
+  inset: 18% 22% 24% 18%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 246, 236, 0.26), transparent 34%),
+    linear-gradient(145deg, rgba(201, 133, 73, 0.42), rgba(74, 45, 32, 0.18));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.18),
+    0 18px 40px rgba(0, 0, 0, 0.18);
+  transform: rotateX(62deg) rotateY(-12deg) rotateZ(-18deg) translateZ(24px);
+}
+
+.sceneRibbon {
+  inset: 30% 12% 10% 24%;
+  border-radius: 44% 56% 50% 50%;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.08), rgba(235, 174, 115, 0.24));
+  transform: rotateX(72deg) rotateY(8deg) rotateZ(24deg) translateZ(12px);
+}
+
+.sceneSteamGroup {
+  position: absolute;
+  inset: 4% 26% auto 26%;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.sceneSteam {
+  width: 10px;
+  height: 86px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.48), rgba(233, 169, 101, 0.06));
+  filter: blur(0.4px);
+  transform-origin: bottom center;
+}
+
+.heroMetrics,
+.metricGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.heroMetrics {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  position: relative;
+}
+
+.heroMetrics div,
+.metricCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+}
+
+.heroMetrics strong,
+.metricCard strong,
+.footerTitle,
+.dashboardLead,
+.timerText,
+.summaryHeader strong,
+.sectionHeader strong {
+  color: #fff8f0;
+}
+
+.heroMetrics strong {
+  font-size: 1rem;
+}
+
+.ctaStack {
+  display: flex;
+  gap: 12px;
+}
+
+.quickStartPanel,
+.dashboardInsight {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 26px;
+  backdrop-filter: blur(10px);
+}
+
+.methodSlider {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.methodSliderHeader,
+.sliderControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.methodSliderHeader {
+  align-items: end;
+}
+
+.sliderHint {
+  margin: 8px 0 0;
+  color: #b8aea4;
+  font-size: 0.92rem;
+}
+
+.methodViewport {
+  position: relative;
+  min-height: 460px;
+  padding: 26px 20px;
+  border-radius: 36px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(233, 169, 101, 0.14), transparent 26%),
+    radial-gradient(circle at 80% 30%, rgba(255, 246, 236, 0.09), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+}
+
+.methodOrbit {
+  position: absolute;
+  inset: 14% 10%;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  opacity: 0.7;
+  filter: blur(0.1px);
+}
+
+.methodControlRail,
+.methodControlRailEnd {
+  position: absolute;
+  top: calc(50% - 28px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.methodControlRail {
+  left: 8px;
+}
+
+.methodControlRailEnd {
+  right: 8px;
+}
+
+.methodViewport[data-controls-visible="true"] .methodControlRail,
+.methodViewport[data-controls-visible="true"] .methodControlRailEnd {
+  pointer-events: auto;
+}
+
+.methodSlide {
+  display: grid;
+  gap: 20px;
+  align-items: center;
+  min-height: 408px;
+  padding: 42px 52px;
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 22% 32%, rgba(255, 246, 236, 0.12), transparent 22%),
+    radial-gradient(circle at 78% 68%, rgba(233, 169, 101, 0.12), transparent 24%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.02), rgba(233, 169, 101, 0.04)),
+    rgba(255, 255, 255, 0.01);
+  cursor: grab;
+}
+
+.methodSlide:active {
+  cursor: grabbing;
+}
+
+.methodSlide .primaryButton {
+  width: fit-content;
+}
+
+.methodCardVisual {
+  position: relative;
+  display: grid;
+  min-height: 220px;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(255, 246, 236, 0.1), transparent 40%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(233, 169, 101, 0.03));
+  border-radius: 42% 58% 46% 54% / 58% 40% 60% 42%;
+}
+
+.methodCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 32rem;
+}
+
+.methodMetaList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.methodMetaList span {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #eedfce;
+  font-size: 0.88rem;
+}
+
+.methodCardContent strong {
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  font-weight: 650;
+  color: #f8f3ec;
+  letter-spacing: -0.05em;
+}
+
+.methodCopy {
+  color: #e0d5ca;
+  font-size: 1.04rem;
+  line-height: 1.7;
+}
+
+.methodIllustration {
+  width: min(100%, 240px);
+  height: auto;
+}
+
+.methodOutline {
+  fill: rgba(255, 255, 255, 0.04);
+  stroke: rgba(255, 255, 255, 0.32);
+  stroke-width: 4;
+}
+
+.methodStroke {
+  fill: none;
+  stroke: rgba(233, 169, 101, 0.88);
+  stroke-linecap: round;
+  stroke-width: 6;
+}
+
+.methodAccent {
+  fill: rgba(233, 169, 101, 0.18);
+  stroke: rgba(255, 246, 236, 0.32);
+  stroke-width: 4;
+}
+
+.sliderDots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.sliderDot,
+.iconButton {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.05);
+  color: #f5efe8;
+}
+
+.sliderDot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.sliderDot[data-selected="true"] {
+  width: 28px;
+  background: rgba(233, 169, 101, 0.9);
+  border-color: rgba(233, 169, 101, 0.9);
+}
+
+.iconButton {
+  min-width: 56px;
+  padding-inline: 0;
+  border-radius: 999px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22);
+}
+
+.methodCard small,
+.summaryCopy,
+.summaryNote,
+.controlHint,
+.dashboardLine,
+.timerNote,
+.savedRecipe p {
+  color: #b8aea4;
+}
+
+.methodCard:hover,
+.primaryButton:hover,
+.secondaryButton:hover,
+.ghostButton:hover,
+.segmentButton:hover,
+.chipButton:hover,
+.iconButton:hover {
+  transform: translateY(-1px);
+}
+
+.methodCard[data-selected="true"],
+.segmentButton[data-selected="true"],
+.chipButton[data-selected="true"] {
+  border-color: rgba(233, 169, 101, 0.58);
+  background: rgba(233, 169, 101, 0.14);
+}
+
+.summaryHero,
+.controlPanel,
+.stepPreviewCard,
+.dashboardHero,
+.savedPanel,
+.brewHero,
+.timerStage {
+  padding: 22px;
+}
+
+.summaryHero,
+.controlPanel,
+.stepPreviewCard,
+.dashboardHero,
+.savedPanel,
+.brewHero {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.summaryHeader,
+.sectionHeader,
+.controlHeader,
+.progressMeta,
+.brewActions,
+.actionRow,
+.savedRecipe {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.methodPill,
+.statusChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(233, 169, 101, 0.12);
+  color: #eed2b3;
+}
+
+.summaryNote,
+.summaryCopy {
+  margin-top: 10px;
+}
+
+.recommendationBanner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 16px 18px;
+  border-radius: 22px;
+  background: rgba(233, 169, 101, 0.12);
+}
+
+.recommendationBanner p {
+  color: #e6d8ca;
+}
+
+.metricGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 18px;
+}
+
+.metricCard strong {
+  font-size: 1.55rem;
+  font-weight: 650;
+}
+
+.controlPanel,
+.advancedGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.controlGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.segmentedControl,
+.chipRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.segmentButton,
+.chipButton,
+.secondaryButton,
+.primaryButton,
+.ghostButton {
+  position: relative;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 14px 18px;
+  font: inherit;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.segmentButton,
+.chipButton,
+.secondaryButton {
+  background: rgba(255, 255, 255, 0.05);
+  color: #f4ece3;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #ebae73 0%, #c98549 100%);
+  color: #17171c;
+  font-weight: 650;
+}
+
+.ghostButton {
+  background: transparent;
+  color: #e8dacb;
+}
+
+.buttonLabel {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.buttonGlow {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 20%, rgba(255, 255, 255, 0.18), transparent 80%);
+  opacity: 0;
+  transform: translateX(-110%);
+  transition:
+    transform 0.7s ease,
+    opacity 0.25s ease;
+}
+
+.primaryButton:hover .buttonGlow,
+.secondaryButton:hover .buttonGlow,
+.ghostButton:hover .buttonGlow,
+.segmentButton:hover .buttonGlow,
+.chipButton:hover .buttonGlow,
+.methodCard:hover .buttonGlow {
+  opacity: 1;
+  transform: translateX(110%);
+}
+
+.methodCard .buttonLabel {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.primaryButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.inlineValue {
+  color: #eed2b3;
+  font-size: 0.88rem;
+}
+
+.controlHint {
+  color: #b8aea4;
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.stepListCompact,
+.savedList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stepCompactRow,
+.savedRecipe {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.stepCompactRow span {
+  color: #eed2b3;
+  font-size: 0.85rem;
+  min-width: 1rem;
+}
+
+.stepCompactRow p {
+  color: #f7efe6;
+}
+
+.composerFooter {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 24px;
+  background: rgba(16, 17, 21, 0.92);
+  backdrop-filter: blur(14px);
+}
+
+.footerTitle {
+  font-size: 1.15rem;
+}
+
+.brewHero {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(135deg, rgba(233, 169, 101, 0.14), rgba(255, 255, 255, 0.03)),
+    rgba(14, 15, 19, 0.48);
+  backdrop-filter: blur(10px);
+}
+
+.progressHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.progressValue {
+  color: #fff3e5;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.progressMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: #d7cbc0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.progressBar {
+  width: 100%;
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #ebae73 0%, #d68d55 100%);
+  box-shadow: 0 0 24px rgba(214, 141, 85, 0.28);
+}
+
+.progressHint {
+  color: #c1b5a9;
+  font-size: 0.88rem;
+}
+
+.brewCoachRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.brewCoachText,
+.recoveryMessage {
+  color: #eadfd3;
+  font-size: 0.94rem;
+}
+
+.recoveryMessage {
+  padding: 14px 16px 0;
+}
+
+.timerStage {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 20px;
+  align-items: center;
+}
+
+.timerRing {
+  display: grid;
+  place-items: center;
+  width: 180px;
+  height: 180px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle, rgba(16, 17, 21, 0.2) 35%, rgba(235, 174, 115, 0.18) 36%, rgba(255, 255, 255, 0.06) 100%);
+  color: #eed2b3;
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.timerDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.timerText {
+  font-size: clamp(2.7rem, 8vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.brewActions {
+  align-items: stretch;
+}
+
+.brewActions .primaryButton {
+  flex: 1;
+}
+
+.dashboardHero {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background:
+    linear-gradient(135deg, rgba(233, 169, 101, 0.12), rgba(255, 255, 255, 0.02)),
+    transparent;
+}
+
+.dashboardLead {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.savedPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.savedRecipe strong {
+  color: #fff6ec;
+}
+
+@media (min-width: 1180px) {
+  .copy {
+    max-width: 860px;
+    padding-inline: 0;
+  }
+
+  .screenBody {
+    gap: 36px;
+    width: min(100%, 980px);
+    padding-inline: 0;
+  }
+}
+
+@media (max-width: 1080px) {
+  .copy {
+    max-width: 860px;
+    padding-inline: clamp(0px, 2vw, 18px);
+  }
+
+  .screenBody {
+    width: min(100%, 960px);
+    padding-inline: clamp(0px, 2vw, 18px);
+  }
+
+  .heroPanel,
+  .quickStartPanel,
+  .summaryHero,
+  .controlPanel,
+  .stepPreviewCard,
+  .dashboardInsight,
+  .dashboardHero,
+  .savedPanel,
+  .brewHero,
+  .timerStage {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .cutoutLeaf {
+    inset: 4% auto auto 0;
+  }
+
+  .cutoutPetal {
+    inset: 8% 0 auto auto;
+  }
+
+  .cutoutPool {
+    inset: auto 4% 6% auto;
+  }
+
+  .cutoutStem {
+    inset: auto auto 8% 0;
+  }
+}
+
+@media (min-width: 721px) {
+  .methodSlide {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+
+  .methodSlide .primaryButton {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 720px) {
+  .shell {
+    padding: 0 14px 36px;
+  }
+
+  .card {
+    min-height: 100vh;
+    padding: 28px 0 44px;
+  }
+
+  .frame,
+  .copy,
+  .screenBody {
+    padding-inline: 0;
+  }
+
+  .copy,
+  .heroPanel,
+  .quickStartPanel,
+  .summaryHero,
+  .controlPanel,
+  .stepPreviewCard,
+  .dashboardInsight,
+  .dashboardHero,
+  .savedPanel,
+  .brewHero {
+    max-width: 100%;
+  }
+
+  .cutoutField {
+    inset: 0 0 8% 0;
+  }
+
+  .screenAura {
+    inset: -20% auto auto 50%;
+    width: 260px;
+    height: 260px;
+  }
+
+  .screenFlow {
+    inset: 16% -12% auto -12%;
+    height: 180px;
+  }
+
+  .screenMist {
+    inset: auto -14% 22% 18%;
+    height: 180px;
+  }
+
+  .heroMetrics,
+  .metricGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .methodViewport {
+    min-height: 460px;
+    padding: 18px 8px;
+  }
+
+  .methodSlide {
+    min-height: 420px;
+    padding: 34px 26px 30px;
+  }
+
+  .cutoutLeaf {
+    inset: 3% auto auto 2%;
+    width: 170px;
+    height: 220px;
+  }
+
+  .cutoutPetal {
+    inset: 12% 2% auto auto;
+    width: 132px;
+    height: 98px;
+  }
+
+  .cutoutPool {
+    inset: auto 4% 12% auto;
+    width: 180px;
+    height: 124px;
+  }
+
+  .cutoutStem {
+    inset: auto auto 16% 2%;
+    width: 80px;
+    height: 180px;
+  }
+
+  .methodControlRail {
+    left: 4px;
+  }
+
+  .methodControlRailEnd {
+    right: 4px;
+  }
+
+  .timerStage {
+    grid-template-columns: 1fr;
+  }
+
+  .ambientScene,
+  .sceneComposer,
+  .sceneBrewing,
+  .sceneCompletion,
+  .sceneLanding {
+    width: 180px;
+    height: 180px;
+    inset: auto -6% -6% auto;
+  }
+
+  .sceneSteam {
+    height: 64px;
+  }
+
+  .timerRing {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+  }
+
+  .composerFooter,
+  .actionRow,
+  .brewActions {
+    flex-direction: column;
+  }
+
+  .composerFooter .primaryButton,
+  .actionRow .primaryButton,
+  .actionRow .secondaryButton,
+  .brewActions .primaryButton,
+  .brewActions .secondaryButton {
+    width: 100%;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .methodControlRail,
+  .methodControlRailEnd {
+    opacity: 1 !important;
+    pointer-events: auto;
+  }
+}
