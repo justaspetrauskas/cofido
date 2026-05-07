@@ -588,6 +588,31 @@ export function BrewingScreen({
           <div className={styles.progressBar}>
             <div className={styles.progressFill} style={{ width: `${activeBrewProgress}%` }} />
           </div>
+          <div className={styles.stepDots} data-testid="brew-step-dots" aria-label="Brew step progress">
+            {activeBrew.recipe.steps.map((step, index) => {
+              const state =
+                index < activeBrew.currentStepIndex
+                  ? "complete"
+                  : index === activeBrew.currentStepIndex
+                    ? "current"
+                    : "remaining";
+              const ariaLabel =
+                state === "complete"
+                  ? `Step ${index + 1}, complete`
+                  : state === "current"
+                    ? `Step ${index + 1}, current`
+                    : `Step ${index + 1}`;
+              return (
+                <span
+                  key={step.title}
+                  aria-label={ariaLabel}
+                  className={styles.stepDot}
+                  data-state={state}
+                  data-testid="brew-step-dot"
+                />
+              );
+            })}
+          </div>
           <p className={styles.progressHint}>Press space to pause or resume.</p>
           <div className={styles.brewCoachRow}>
             {nextStepTitle ? <p className={styles.brewCoachText}>Next: {nextStepTitle}</p> : null}
