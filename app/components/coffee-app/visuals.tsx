@@ -542,10 +542,10 @@ export function TimerRing({
 }) {
   const prefersReducedMotion = useReducedMotion();
 
-  const hasTimer = totalSeconds !== undefined && remainingSeconds !== null;
-  const progress = hasTimer
-    ? Math.max(0, Math.min(1, (remainingSeconds as number) / totalSeconds))
-    : 1;
+  const progress =
+    totalSeconds !== undefined && remainingSeconds !== null
+      ? Math.max(0, Math.min(1, remainingSeconds / totalSeconds))
+      : 1;
   const strokeDashoffset = TIMER_RING_CIRCUMFERENCE * (1 - progress);
 
   return (
@@ -572,6 +572,7 @@ export function TimerRing({
           strokeDasharray={TIMER_RING_CIRCUMFERENCE}
           animate={{ strokeDashoffset }}
           initial={{ strokeDashoffset }}
+          // rotate -90 so the arc starts at 12 o'clock and drains clockwise
           style={{ originX: "50%", originY: "50%", rotate: -90 }}
           transition={
             prefersReducedMotion
