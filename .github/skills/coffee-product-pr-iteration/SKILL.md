@@ -52,7 +52,8 @@ user-invocable: true
    - Implement the minimum change to pass.
    - Refactor only after tests are green.
 6. Run [Guardrails Check](../coffee-ritual-guardrails-check/SKILL.md) and resolve any rejects.
-7. Produce the PR output in the exact structure below or use [PR Formatting](../coffee-pr-format-github/SKILL.md).
+7. Create a branch name that reflects the exact update scope.
+8. Produce the PR output in the exact structure below or use [PR Formatting](../coffee-pr-format-github/SKILL.md).
 
 ## Mandatory PR Output Format
 
@@ -98,6 +99,7 @@ user-invocable: true
 - Improvement is incremental, not a redesign.
 - PR includes all mandatory sections, including Before vs After.
 - Claims are concrete, user-focused, and justified (not speculative).
+- Branch name matches what was actually updated.
 
 ## Quick Prompt Examples
 - Create one iteration to reduce hesitation in step instructions and output a full PR.

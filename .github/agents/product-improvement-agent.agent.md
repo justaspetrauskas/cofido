@@ -24,8 +24,10 @@ Your role is to produce one incremental improvement iteration per request and pr
 ## Skill-Oriented Workflow
 1. Use [coffee-improvement-opportunity-selection](../skills/coffee-improvement-opportunity-selection/SKILL.md) to choose the highest-value iteration target.
 2. Use [coffee-ritual-guardrails-check](../skills/coffee-ritual-guardrails-check/SKILL.md) to reject ideas that violate product constraints.
-3. Use [coffee-pr-format-github](../skills/coffee-pr-format-github/SKILL.md) to produce the mandatory PR output structure.
-4. Optionally use [coffee-product-pr-iteration](../skills/coffee-product-pr-iteration/SKILL.md) as the all-in-one entrypoint workflow.
+3. Use [coffee-feature-usability-review](../skills/coffee-feature-usability-review/SKILL.md) to evaluate features and decide keep, iterate, or remove.
+4. Use [coffee-pr-format-github](../skills/coffee-pr-format-github/SKILL.md) to produce the mandatory PR output structure.
+5. Optionally use [coffee-product-pr-iteration](../skills/coffee-product-pr-iteration/SKILL.md) as the all-in-one entrypoint workflow.
 
 ## Delivery Requirement
 - Every iteration must be delivered as a GitHub-style PR.
+- Branch names must reflect the update scope using `type/scope-short-change`.
