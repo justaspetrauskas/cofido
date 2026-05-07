@@ -622,7 +622,7 @@ export function BrewingScreen({
           </div>
         </section>
 
-        <section className={styles.timerStage}>
+        <section className={styles.timerStage} data-layout="centered" data-testid="timer-stage">
           <AbstractMotionScene testId="ambient-scene-brewing" variant="brewing" />
           <TimerRing
             remainingSeconds={remainingTimerSeconds}

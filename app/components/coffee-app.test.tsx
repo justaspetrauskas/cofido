@@ -612,6 +612,35 @@ describe("CoffeeApp", () => {
     }
   });
 
+  it("marks the brewing timer section as centered-layout so the ring is the visual anchor", () => {
+    const now = Date.now();
+    const recipe = createRecipe({
+      method: "pour-over",
+      cups: 1,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: [],
+    });
+
+    navigationMock.reset("/?view=brewing");
+    useCoffeeStore.setState({
+      ...getDefaultCoffeeState(),
+      activeBrew: {
+        id: "brew-centered-layout",
+        recipe,
+        startedAt: now,
+        currentStepIndex: 4,
+        status: "paused",
+        timerStartedAt: null,
+        remainingTimerSeconds: 45,
+      },
+    });
+
+    render(<CoffeeApp />);
+
+    expect(screen.getByTestId("timer-stage")).toHaveAttribute("data-layout", "centered");
+  });
+
   it("shows the timer countdown inside the ring center and removes it from below the ring", () => {
     const now = Date.now();
     const recipe = createRecipe({

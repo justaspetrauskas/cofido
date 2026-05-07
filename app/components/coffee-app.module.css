@@ -367,7 +367,6 @@
 .metricCard strong,
 .footerTitle,
 .dashboardLead,
-.timerText,
 .summaryHeader strong,
 .sectionHeader strong {
   color: #fff8f0;
@@ -958,23 +957,24 @@
 }
 
 .timerStage {
-  display: grid;
-  grid-template-columns: 180px minmax(0, 1fr);
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 24px;
+  text-align: center;
 }
 
 .timerRing {
   position: relative;
   display: grid;
   place-items: center;
-  width: 180px;
-  height: 180px;
+  width: 260px;
+  height: 260px;
   border-radius: 999px;
-  color: #eed2b3;
-  font-size: 0.92rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  color: #fff8f0;
+  font-size: clamp(2.4rem, 6vw, 3.6rem);
+  line-height: 1;
+  letter-spacing: -0.06em;
 }
 
 .timerRingSvg {
@@ -1004,12 +1004,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-}
-
-.timerText {
-  font-size: clamp(2.7rem, 8vw, 4rem);
-  line-height: 1;
-  letter-spacing: -0.06em;
+  align-items: center;
 }
 
 .brewActions {
@@ -1205,8 +1200,9 @@
     right: 4px;
   }
 
-  .timerStage {
-    grid-template-columns: 1fr;
+  .timerRing {
+    width: 220px;
+    height: 220px;
   }
 
   .ambientScene,
@@ -1221,12 +1217,6 @@
 
   .sceneSteam {
     height: 64px;
-  }
-
-  .timerRing {
-    width: 150px;
-    height: 150px;
-    margin: 0 auto;
   }
 
   .composerFooter,
