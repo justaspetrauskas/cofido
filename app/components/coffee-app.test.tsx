@@ -442,7 +442,7 @@ describe("CoffeeApp", () => {
     expect(screen.getByTestId("brew-progress")).toHaveAttribute("data-emphasis", "primary");
     expect(screen.getByText("Press space to pause or resume.")).toBeInTheDocument();
     expect(screen.getByText("Next: Pour in circles")).toBeInTheDocument();
-    expect(screen.getByText("Remaining guided time: 3 min")).toBeInTheDocument();
+    expect(screen.getByText("Remaining guided time: 3 min 15s")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Continue" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Skip timer" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Lost my place" })).toBeInTheDocument();
@@ -478,7 +478,7 @@ describe("CoffeeApp", () => {
       equipment: [],
     });
 
-    // Step index 4 is "Bloom" with timerSeconds=30
+    // Step index 4 is "Bloom" with timerSeconds=45
     navigationMock.reset("/?view=brewing");
     useCoffeeStore.setState({
       ...getDefaultCoffeeState(),
@@ -489,7 +489,7 @@ describe("CoffeeApp", () => {
         currentStepIndex: 4,
         status: "paused",
         timerStartedAt: null,
-        remainingTimerSeconds: 30,
+        remainingTimerSeconds: 45,
       },
     });
 
@@ -499,8 +499,8 @@ describe("CoffeeApp", () => {
 
     const progressArc = screen.getByTestId("timer-ring-progress");
     expect(progressArc).toBeInTheDocument();
-    expect(progressArc).toHaveAttribute("data-remaining", "30");
-    expect(progressArc).toHaveAttribute("data-total", "30");
+    expect(progressArc).toHaveAttribute("data-remaining", "45");
+    expect(progressArc).toHaveAttribute("data-total", "45");
 
     // Step index 5 (no timer) — shows "none" for total
     useCoffeeStore.setState({
