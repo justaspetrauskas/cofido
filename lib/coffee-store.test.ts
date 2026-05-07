@@ -27,17 +27,17 @@ describe("coffee store", () => {
     store.goToNextStep(1_000);
 
     expect(useCoffeeStore.getState().activeBrew?.currentStepIndex).toBe(4);
-    expect(useCoffeeStore.getState().activeBrew?.remainingTimerSeconds).toBe(30);
+    expect(useCoffeeStore.getState().activeBrew?.remainingTimerSeconds).toBe(45);
 
     store.pauseBrew(11_000);
 
-    expect(useCoffeeStore.getState().activeBrew?.remainingTimerSeconds).toBe(20);
+    expect(useCoffeeStore.getState().activeBrew?.remainingTimerSeconds).toBe(35);
     expect(useCoffeeStore.getState().activeBrew?.status).toBe("paused");
 
     store.resumeBrew(21_000);
 
     expect(useCoffeeStore.getState().activeBrew?.timerStartedAt).toBe(21_000);
-    expect(useCoffeeStore.getState().activeBrew?.remainingTimerSeconds).toBe(20);
+    expect(useCoffeeStore.getState().activeBrew?.remainingTimerSeconds).toBe(35);
     expect(useCoffeeStore.getState().activeBrew?.status).toBe("brewing");
   });
 

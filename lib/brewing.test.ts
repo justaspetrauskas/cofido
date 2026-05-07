@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { createRecipe, formatTimer } from "@/lib/brewing";
 
 describe("createRecipe", () => {
-  it("builds a stronger two-cup pour-over recipe with a bloom step", () => {
+  it("builds a stronger two-cup pour-over recipe with a longer V60-style bloom", () => {
     const recipe = createRecipe({
       method: "pour-over",
       cups: 2,
@@ -28,7 +28,32 @@ describe("createRecipe", () => {
       "Let it draw down",
       "Serve",
     ]);
+    expect(recipe.steps.find((step) => step.title === "Bloom")?.timerSeconds).toBe(45);
+    expect(recipe.totalTimeSeconds).toBe(210);
+  });
+
+  it("uses a fuller AeroPress steep-and-press timing flow", () => {
+    const recipe = createRecipe({
+      method: "aeropress",
+      cups: 1,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: ["kettle"],
+    });
+
+    expect(recipe.steps.map((step) => step.title)).toEqual([
+      "Heat water",
+      "Grind beans",
+      "Add coffee",
+      "Bloom",
+      "Steep",
+      "Press",
+      "Serve",
+    ]);
     expect(recipe.steps.find((step) => step.title === "Bloom")?.timerSeconds).toBe(30);
+    expect(recipe.steps.find((step) => step.title === "Steep")?.timerSeconds).toBe(60);
+    expect(recipe.steps.find((step) => step.title === "Press")?.timerSeconds).toBe(30);
+    expect(recipe.totalTimeSeconds).toBe(120);
   });
 });
 
