@@ -328,6 +328,38 @@ describe("CoffeeApp", () => {
     expect(await screen.findByRole("button", { name: "Choose Pour-over" })).toBeInTheDocument();
   });
 
+  it("renders recognizable visual markers for each brewing method illustration", async () => {
+    const user = userEvent.setup();
+
+    render(<CoffeeApp />);
+
+    await user.click(screen.getByRole("button", { name: "Start Brewing" }));
+
+    expect(await screen.findByTestId("method-illustration-pour-over")).toBeInTheDocument();
+    expect(screen.getByTestId("method-feature-pour-over-dripper")).toBeInTheDocument();
+    expect(screen.getByTestId("method-feature-pour-over-kettle-stream")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Next method" }));
+    expect(await screen.findByTestId("method-illustration-french-press")).toBeInTheDocument();
+    expect(screen.getByTestId("method-feature-french-press-plunger")).toBeInTheDocument();
+    expect(screen.getByTestId("method-feature-french-press-handle")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Next method" }));
+    expect(await screen.findByTestId("method-illustration-aeropress")).toBeInTheDocument();
+    expect(screen.getByTestId("method-feature-aeropress-chamber")).toBeInTheDocument();
+    expect(screen.getByTestId("method-feature-aeropress-plunger")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Next method" }));
+    expect(await screen.findByTestId("method-illustration-espresso")).toBeInTheDocument();
+    expect(screen.getByTestId("method-feature-espresso-portafilter")).toBeInTheDocument();
+    expect(screen.getByTestId("method-feature-espresso-cup")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Next method" }));
+    expect(await screen.findByTestId("method-illustration-cold-brew")).toBeInTheDocument();
+    expect(screen.getByTestId("method-feature-cold-brew-jar")).toBeInTheDocument();
+    expect(screen.getByTestId("method-feature-cold-brew-ice")).toBeInTheDocument();
+  });
+
   it("shows the returning-user dashboard with a saved recipe and active brew", () => {
     const recipe = createRecipe({
       method: "french-press",
