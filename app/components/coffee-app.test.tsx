@@ -562,6 +562,56 @@ describe("CoffeeApp", () => {
     expect(progressArcNoTimer).toHaveAttribute("data-total", "none");
   });
 
+  it("shows step progress dots on the brewing screen to indicate completed, current, and remaining steps", () => {
+    const now = Date.now();
+    const recipe = createRecipe({
+      method: "pour-over",
+      cups: 1,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: [],
+    });
+
+    // pour-over has 8 steps; step index 4 is "Bloom"
+    navigationMock.reset("/?view=brewing");
+    useCoffeeStore.setState({
+      ...getDefaultCoffeeState(),
+      activeBrew: {
+        id: "brew-step-dots",
+        recipe,
+        startedAt: now,
+        currentStepIndex: 4,
+        status: "paused",
+        timerStartedAt: null,
+        remainingTimerSeconds: 45,
+      },
+    });
+
+    render(<CoffeeApp />);
+
+    const dotsContainer = screen.getByTestId("brew-step-dots");
+    expect(dotsContainer).toBeInTheDocument();
+
+    const dots = dotsContainer.querySelectorAll("[data-testid='brew-step-dot']");
+    expect(dots).toHaveLength(8);
+
+    // Steps 0-3 are complete
+    for (let i = 0; i < 4; i++) {
+      expect(dots[i]).toHaveAttribute("data-state", "complete");
+      expect(dots[i]).toHaveAttribute("aria-label", `Step ${i + 1}, complete`);
+    }
+
+    // Step 4 is current
+    expect(dots[4]).toHaveAttribute("data-state", "current");
+    expect(dots[4]).toHaveAttribute("aria-label", "Step 5, current");
+
+    // Steps 5-7 are remaining
+    for (let i = 5; i < 8; i++) {
+      expect(dots[i]).toHaveAttribute("data-state", "remaining");
+      expect(dots[i]).toHaveAttribute("aria-label", `Step ${i + 1}`);
+    }
+  });
+
   it("lets completion and dashboard buttons save a recipe and start a new brew", async () => {
     const user = userEvent.setup();
     const recipe = createRecipe({
