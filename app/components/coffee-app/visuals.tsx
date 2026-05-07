@@ -30,38 +30,60 @@ export function MethodIllustration({ method }: { method: BrewMethod }) {
         data-testid="method-illustration-pour-over"
         viewBox="0 0 240 200"
       >
+        <defs>
+          <linearGradient id="pour-over-body" x1="0%" x2="100%" y1="0%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.2)" />
+            <stop offset="100%" stopColor="rgba(233, 169, 101, 0.08)" />
+          </linearGradient>
+        </defs>
+        <motion.ellipse
+          className={styles.methodShadow}
+          cx="122"
+          cy="170"
+          rx="52"
+          ry="14"
+          animate={prefersReducedMotion ? undefined : { scaleX: [1, 1.08, 1], opacity: [0.22, 0.32, 0.22] }}
+          transition={{ ...sharedTransition, duration: 5.1 }}
+        />
         <motion.path
           className={styles.methodOutline}
-          d="M94 50 C122 38 150 54 162 76 C172 94 164 118 144 134 C124 150 92 150 72 134 C54 118 48 92 60 74 C68 62 80 56 94 50 Z"
-          animate={prefersReducedMotion ? undefined : { rotate: [0, 3, -2, 0], y: [0, 5, 0] }}
-          style={{ originX: "50%", originY: "50%" }}
-          transition={{ ...sharedTransition, duration: 5.4 }}
+          data-testid="method-feature-pour-over-dripper"
+          d="M88 54 L154 54 L136 112 C132 126 122 132 110 132 C98 132 88 126 84 112 Z"
+          animate={prefersReducedMotion ? undefined : { y: [0, 2, 0], rotate: [0, 1.4, 0] }}
+          style={{ fill: "url(#pour-over-body)", originX: "50%", originY: "50%" }}
+          transition={{ ...sharedTransition, duration: 4.8 }}
         />
-        <motion.circle
-          className={styles.methodAccent}
-          cx="118"
-          cy="150"
-          r="34"
-          animate={prefersReducedMotion ? undefined : { scale: [1, 1.08, 1], x: [0, -4, 0] }}
-          transition={{ ...sharedTransition, duration: 4.9 }}
+        <motion.path
+          className={styles.methodOutline}
+          d="M84 128 C90 144 100 154 112 154 C124 154 134 144 140 128 Z"
+          style={{ fill: "rgba(255, 255, 255, 0.07)" }}
         />
         <motion.path
           className={styles.methodStroke}
-          d="M82 26 C124 34 142 64 122 134"
+          data-testid="method-feature-pour-over-kettle-stream"
+          d="M166 40 C150 58 138 80 122 110"
           animate={
             prefersReducedMotion
               ? undefined
-              : { pathLength: [0.24, 1, 0.42], opacity: [0.35, 0.92, 0.35], x: [0, 4, 0] }
+              : { pathLength: [0.2, 1, 0.46], opacity: [0.35, 0.95, 0.35], x: [0, 2, 0] }
           }
-          initial={{ pathLength: 0.36, opacity: 0.5 }}
+          initial={{ pathLength: 0.4, opacity: 0.5 }}
           transition={sharedTransition}
         />
         <motion.path
           className={styles.methodAccent}
-          d="M164 58 C186 68 194 88 180 110 C168 128 146 126 134 110 C122 94 132 72 164 58 Z"
-          animate={prefersReducedMotion ? undefined : { x: [0, 8, 0], rotate: [0, 6, 0] }}
+          d="M168 44 C182 44 194 56 194 70 C194 78 188 84 180 84 C164 84 156 72 160 60 C162 52 166 46 168 44 Z"
+          animate={prefersReducedMotion ? undefined : { x: [0, 5, 0], rotate: [0, 4, 0] }}
           style={{ originX: "50%", originY: "50%" }}
-          transition={{ ...sharedTransition, duration: 6 }}
+          transition={{ ...sharedTransition, duration: 5.6 }}
+        />
+        <motion.circle
+          className={styles.methodAccent}
+          cx="112"
+          cy="146"
+          r="10"
+          animate={prefersReducedMotion ? undefined : { scale: [1, 1.1, 1], y: [0, -1, 0] }}
+          transition={{ ...sharedTransition, duration: 4.2 }}
         />
       </svg>
     );
@@ -75,34 +97,52 @@ export function MethodIllustration({ method }: { method: BrewMethod }) {
         data-testid="method-illustration-french-press"
         viewBox="0 0 240 200"
       >
+        <defs>
+          <linearGradient id="french-press-glass" x1="0%" x2="0%" y1="0%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.2)" />
+            <stop offset="100%" stopColor="rgba(255, 255, 255, 0.04)" />
+          </linearGradient>
+        </defs>
         <motion.rect
           className={styles.methodOutline}
-          height="104"
-          rx="34"
-          width="82"
-          x="84"
-          y="52"
+          height="108"
+          rx="22"
+          width="88"
+          x="78"
+          y="56"
+          style={{ fill: "url(#french-press-glass)", originX: "50%", originY: "50%" }}
           animate={prefersReducedMotion ? undefined : { y: [0, 4, 0], rotate: [0, 2, 0] }}
-          style={{ originX: "50%", originY: "50%" }}
           transition={{ ...sharedTransition, duration: 5.2 }}
         />
         <motion.path
           className={styles.methodStroke}
-          d="M124 22 C126 46 126 64 124 86"
+          data-testid="method-feature-french-press-plunger"
+          d="M122 24 L122 94"
           animate={prefersReducedMotion ? undefined : { y: [0, 6, 0], pathLength: [0.3, 1, 0.4] }}
           initial={{ pathLength: 0.6 }}
           transition={{ ...sharedTransition, duration: 2.8 }}
         />
+        <motion.rect
+          className={styles.methodAccent}
+          data-testid="method-feature-french-press-handle"
+          height="48"
+          rx="12"
+          width="14"
+          x="170"
+          y="76"
+          animate={prefersReducedMotion ? undefined : { x: [0, 3, 0] }}
+          transition={{ ...sharedTransition, duration: 4.7 }}
+        />
         <motion.path
           className={styles.methodAccent}
-          d="M168 70 C196 86 198 116 174 132 C154 146 136 136 138 116 C140 94 144 76 168 70 Z"
+          d="M94 66 C108 62 136 62 150 66 L150 136 C138 142 106 142 94 136 Z"
           animate={prefersReducedMotion ? undefined : { x: [0, 7, 0], rotate: [0, 5, 0] }}
           style={{ originX: "50%", originY: "50%" }}
           transition={{ ...sharedTransition, duration: 4.4 }}
         />
         <motion.path
           className={styles.methodAccent}
-          d="M102 148 C128 138 146 146 148 164 C150 180 128 188 106 184 C84 180 78 158 102 148 Z"
+          d="M88 150 C122 142 158 142 166 154 C172 162 156 170 124 172 C96 172 78 164 88 150 Z"
           animate={prefersReducedMotion ? undefined : { scale: [1, 1.06, 1] }}
           style={{ originX: "50%", originY: "50%" }}
           transition={{ ...sharedTransition, duration: 5.6 }}
@@ -119,20 +159,28 @@ export function MethodIllustration({ method }: { method: BrewMethod }) {
         data-testid="method-illustration-aeropress"
         viewBox="0 0 240 200"
       >
+        <defs>
+          <linearGradient id="aeropress-shell" x1="0%" x2="100%" y1="0%" y2="100%">
+            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.2)" />
+            <stop offset="100%" stopColor="rgba(233, 169, 101, 0.1)" />
+          </linearGradient>
+        </defs>
         <motion.path
           className={styles.methodOutline}
-          d="M100 38 C130 34 152 44 156 74 L148 146 C146 166 126 180 104 176 C84 174 72 154 76 136 L90 68 C92 52 94 44 100 38 Z"
+          data-testid="method-feature-aeropress-chamber"
+          d="M92 52 C92 42 100 34 110 34 L130 34 C140 34 148 42 148 52 L144 142 C142 154 132 162 120 162 C108 162 98 154 96 142 Z"
           animate={prefersReducedMotion ? undefined : { rotate: [0, 3, -3, 0], y: [0, 4, 0] }}
-          style={{ originX: "50%", originY: "50%" }}
+          style={{ fill: "url(#aeropress-shell)", originX: "50%", originY: "50%" }}
           transition={{ ...sharedTransition, duration: 5 }}
         />
         <motion.rect
           className={styles.methodAccent}
+          data-testid="method-feature-aeropress-plunger"
           height="18"
           rx="9"
-          width="92"
-          x="74"
-          y="28"
+          width="98"
+          x="70"
+          y="24"
           animate={prefersReducedMotion ? undefined : { x: [0, 6, -4, 0] }}
           transition={{ ...sharedTransition, duration: 4.2 }}
         />
@@ -146,7 +194,7 @@ export function MethodIllustration({ method }: { method: BrewMethod }) {
         />
         <motion.path
           className={styles.methodStroke}
-          d="M92 60 C126 80 142 106 124 148"
+          d="M98 72 C120 86 132 108 122 144"
           animate={prefersReducedMotion ? undefined : { pathLength: [0.3, 1, 0.5], opacity: [0.4, 1, 0.4] }}
           initial={{ pathLength: 0.5, opacity: 0.5 }}
           transition={{ ...sharedTransition, duration: 4.8 }}
@@ -163,23 +211,38 @@ export function MethodIllustration({ method }: { method: BrewMethod }) {
         data-testid="method-illustration-espresso"
         viewBox="0 0 240 200"
       >
+        <defs>
+          <linearGradient id="espresso-metal" x1="0%" x2="100%" y1="0%" y2="0%">
+            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.24)" />
+            <stop offset="100%" stopColor="rgba(255, 255, 255, 0.08)" />
+          </linearGradient>
+        </defs>
         <motion.path
           className={styles.methodOutline}
-          d="M84 98 C96 78 144 76 164 90 C182 102 182 130 160 142 C140 152 100 152 84 136 C74 126 74 112 84 98 Z"
+          data-testid="method-feature-espresso-cup"
+          d="M86 102 C94 88 146 86 164 100 C176 108 176 126 162 134 C146 144 102 144 88 132 C80 124 80 112 86 102 Z"
           animate={prefersReducedMotion ? undefined : { y: [0, 4, 0], rotate: [0, 2, 0] }}
           style={{ originX: "50%", originY: "50%" }}
           transition={{ ...sharedTransition, duration: 4.6 }}
         />
         <motion.path
+          className={styles.methodOutline}
+          data-testid="method-feature-espresso-portafilter"
+          d="M98 56 C104 50 136 50 142 56 L146 74 C140 80 102 80 96 74 Z"
+          style={{ fill: "url(#espresso-metal)" }}
+          animate={prefersReducedMotion ? undefined : { y: [0, 2, 0], rotate: [0, -2, 0] }}
+          transition={{ ...sharedTransition, duration: 4.4 }}
+        />
+        <motion.path
           className={styles.methodStroke}
-          d="M118 40 C118 62 120 84 120 104"
+          d="M112 78 C112 90 112 98 112 108 M128 78 C128 90 128 98 128 108"
           animate={prefersReducedMotion ? undefined : { opacity: [0.25, 1, 0.25], pathLength: [0.1, 1, 0.4], y: [0, 4, 0] }}
           initial={{ pathLength: 0.5, opacity: 0.6 }}
           transition={{ ...sharedTransition, duration: 2.8 }}
         />
         <motion.path
           className={styles.methodAccent}
-          d="M164 100 C188 102 196 118 184 136 C174 152 150 150 148 132 C146 116 148 102 164 100 Z"
+          d="M166 104 C186 106 194 122 182 136 C174 146 156 144 152 132 C150 120 152 106 166 104 Z"
           animate={prefersReducedMotion ? undefined : { rotate: [0, 6, 0], x: [0, 5, 0] }}
           style={{ originX: "50%", originY: "50%" }}
           transition={{ ...sharedTransition, duration: 4 }}
@@ -202,11 +265,18 @@ export function MethodIllustration({ method }: { method: BrewMethod }) {
       data-testid="method-illustration-cold-brew"
       viewBox="0 0 240 200"
     >
+      <defs>
+        <linearGradient id="cold-brew-glass" x1="0%" x2="0%" y1="0%" y2="100%">
+          <stop offset="0%" stopColor="rgba(255, 255, 255, 0.18)" />
+          <stop offset="100%" stopColor="rgba(255, 255, 255, 0.05)" />
+        </linearGradient>
+      </defs>
       <motion.path
         className={styles.methodOutline}
-        d="M94 48 C126 36 156 52 164 82 L164 140 C162 162 142 178 118 178 C94 178 74 160 74 138 L74 82 C78 62 84 52 94 48 Z"
+        data-testid="method-feature-cold-brew-jar"
+        d="M92 50 C104 44 136 44 148 50 C158 56 162 66 162 80 L162 142 C160 162 142 174 120 174 C98 174 80 162 78 142 L78 80 C78 66 82 56 92 50 Z"
         animate={prefersReducedMotion ? undefined : { scaleY: [1, 1.04, 1], y: [0, 3, 0] }}
-        style={{ originX: "50%", originY: "100%" }}
+        style={{ fill: "url(#cold-brew-glass)", originX: "50%", originY: "100%" }}
         transition={{ ...sharedTransition, duration: 5.2 }}
       />
       <motion.path
@@ -218,9 +288,18 @@ export function MethodIllustration({ method }: { method: BrewMethod }) {
       />
       <motion.circle
         className={styles.methodAccent}
-        cx="118"
+        data-testid="method-feature-cold-brew-ice"
+        cx="106"
+        cy="146"
+        r="12"
+        animate={prefersReducedMotion ? undefined : { x: [0, 8, 0], y: [0, -5, 0], scale: [1, 1.05, 1] }}
+        transition={{ ...sharedTransition, duration: 3.6 }}
+      />
+      <motion.circle
+        className={styles.methodAccent}
+        cx="132"
         cy="154"
-        r="18"
+        r="10"
         animate={prefersReducedMotion ? undefined : { x: [0, 8, 0], y: [0, -5, 0], scale: [1, 1.05, 1] }}
         transition={{ ...sharedTransition, duration: 3.6 }}
       />

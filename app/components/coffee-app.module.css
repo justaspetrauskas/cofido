@@ -542,6 +542,7 @@
   fill: rgba(255, 255, 255, 0.04);
   stroke: rgba(255, 255, 255, 0.32);
   stroke-width: 4;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.22));
 }
 
 .methodStroke {
@@ -555,6 +556,11 @@
   fill: rgba(233, 169, 101, 0.18);
   stroke: rgba(255, 246, 236, 0.32);
   stroke-width: 4;
+}
+
+.methodShadow {
+  fill: rgba(0, 0, 0, 0.24);
+  stroke: none;
 }
 
 .sliderDots {
