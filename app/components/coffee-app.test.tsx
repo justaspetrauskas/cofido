@@ -612,6 +612,88 @@ describe("CoffeeApp", () => {
     }
   });
 
+  it("marks the brewing timer section as centered-layout so the ring is the visual anchor", () => {
+    const now = Date.now();
+    const recipe = createRecipe({
+      method: "pour-over",
+      cups: 1,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: [],
+    });
+
+    navigationMock.reset("/?view=brewing");
+    useCoffeeStore.setState({
+      ...getDefaultCoffeeState(),
+      activeBrew: {
+        id: "brew-centered-layout",
+        recipe,
+        startedAt: now,
+        currentStepIndex: 4,
+        status: "paused",
+        timerStartedAt: null,
+        remainingTimerSeconds: 45,
+      },
+    });
+
+    render(<CoffeeApp />);
+
+    expect(screen.getByTestId("timer-stage")).toHaveAttribute("data-layout", "centered");
+  });
+
+  it("shows the timer countdown inside the ring center and removes it from below the ring", () => {
+    const now = Date.now();
+    const recipe = createRecipe({
+      method: "pour-over",
+      cups: 1,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: [],
+    });
+
+    // Step index 4 is "Bloom" with timerSeconds=45 and visual="steam"
+    navigationMock.reset("/?view=brewing");
+    useCoffeeStore.setState({
+      ...getDefaultCoffeeState(),
+      activeBrew: {
+        id: "brew-ring-countdown",
+        recipe,
+        startedAt: now,
+        currentStepIndex: 4,
+        status: "paused",
+        timerStartedAt: null,
+        remainingTimerSeconds: 45,
+      },
+    });
+
+    render(<CoffeeApp />);
+
+    const ringContent = screen.getByTestId("timer-ring-content");
+    expect(ringContent).toHaveTextContent("00:45");
+    expect(ringContent).not.toHaveTextContent("steam");
+
+    // Step index 7 is "Serve" with no timer and visual="cup"
+    useCoffeeStore.setState({
+      ...getDefaultCoffeeState(),
+      activeBrew: {
+        id: "brew-ring-ready",
+        recipe,
+        startedAt: now,
+        currentStepIndex: 7,
+        status: "paused",
+        timerStartedAt: null,
+        remainingTimerSeconds: null,
+      },
+    });
+
+    render(<CoffeeApp />);
+
+    const ringContents = screen.getAllByTestId("timer-ring-content");
+    const lastRingContent = ringContents.at(-1)!;
+    expect(lastRingContent).toHaveTextContent("Ready");
+    expect(lastRingContent).not.toHaveTextContent("cup");
+  });
+
   it("lets completion and dashboard buttons save a recipe and start a new brew", async () => {
     const user = userEvent.setup();
     const recipe = createRecipe({
