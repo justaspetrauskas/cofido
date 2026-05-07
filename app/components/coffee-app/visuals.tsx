@@ -5,6 +5,9 @@ import {
 } from "framer-motion";
 import type { ReactNode } from "react";
 
+export const TIMER_RING_RADIUS = 76;
+export const TIMER_RING_CIRCUMFERENCE = 2 * Math.PI * TIMER_RING_RADIUS;
+
 import type { BrewMethod } from "@/lib/brewing";
 
 import { capitalize, type AmbientSceneVariant } from "./model";
@@ -525,6 +528,64 @@ export function ScreenShell({
         {children}
       </motion.div>
     </motion.section>
+  );
+}
+
+export function TimerRing({
+  children,
+  remainingSeconds,
+  totalSeconds,
+}: {
+  children: ReactNode;
+  remainingSeconds: number | null;
+  totalSeconds: number | undefined;
+}) {
+  const prefersReducedMotion = useReducedMotion();
+
+  const progress =
+    totalSeconds !== undefined && remainingSeconds !== null
+      ? Math.max(0, Math.min(1, remainingSeconds / totalSeconds))
+      : 1;
+  const strokeDashoffset = TIMER_RING_CIRCUMFERENCE * (1 - progress);
+
+  return (
+    <div className={styles.timerRing}>
+      <svg
+        aria-hidden="true"
+        className={styles.timerRingSvg}
+        data-testid="timer-ring-svg"
+        viewBox="0 0 180 180"
+      >
+        <circle
+          className={styles.timerRingTrack}
+          cx="90"
+          cy="90"
+          fill="none"
+          r={TIMER_RING_RADIUS}
+        />
+        <motion.circle
+          className={styles.timerRingProgress}
+          cx="90"
+          cy="90"
+          fill="none"
+          r={TIMER_RING_RADIUS}
+          strokeDasharray={TIMER_RING_CIRCUMFERENCE}
+          animate={{ strokeDashoffset }}
+          initial={{ strokeDashoffset }}
+          // rotate -90 so the arc starts at 12 o'clock and drains clockwise
+          style={{ originX: "50%", originY: "50%", rotate: -90 }}
+          transition={
+            prefersReducedMotion
+              ? { duration: 0 }
+              : { duration: 1, ease: "linear" }
+          }
+          data-testid="timer-ring-progress"
+          data-remaining={remainingSeconds ?? "none"}
+          data-total={totalSeconds ?? "none"}
+        />
+      </svg>
+      <div className={styles.timerRingContent}>{children}</div>
+    </div>
   );
 }
 

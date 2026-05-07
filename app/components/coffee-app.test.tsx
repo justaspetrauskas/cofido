@@ -468,6 +468,61 @@ describe("CoffeeApp", () => {
     expect(await screen.findByRole("heading", { name: "Pour in circles" })).toBeInTheDocument();
   });
 
+  it("renders a circular SVG progress ring on the brewing timer that reflects remaining time", () => {
+    const now = Date.now();
+    const recipe = createRecipe({
+      method: "pour-over",
+      cups: 1,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: [],
+    });
+
+    // Step index 4 is "Bloom" with timerSeconds=30
+    navigationMock.reset("/?view=brewing");
+    useCoffeeStore.setState({
+      ...getDefaultCoffeeState(),
+      activeBrew: {
+        id: "brew-timer-ring",
+        recipe,
+        startedAt: now,
+        currentStepIndex: 4,
+        status: "paused",
+        timerStartedAt: null,
+        remainingTimerSeconds: 30,
+      },
+    });
+
+    render(<CoffeeApp />);
+
+    expect(screen.getByTestId("timer-ring-svg")).toBeInTheDocument();
+
+    const progressArc = screen.getByTestId("timer-ring-progress");
+    expect(progressArc).toBeInTheDocument();
+    expect(progressArc).toHaveAttribute("data-remaining", "30");
+    expect(progressArc).toHaveAttribute("data-total", "30");
+
+    // Step index 5 (no timer) — shows "none" for total
+    useCoffeeStore.setState({
+      ...getDefaultCoffeeState(),
+      activeBrew: {
+        id: "brew-timer-ring-no-timer",
+        recipe,
+        startedAt: now,
+        currentStepIndex: 7,
+        status: "paused",
+        timerStartedAt: null,
+        remainingTimerSeconds: null,
+      },
+    });
+
+    render(<CoffeeApp />);
+
+    const progressArcNoTimer = screen.getAllByTestId("timer-ring-progress").at(-1)!;
+    expect(progressArcNoTimer).toHaveAttribute("data-remaining", "none");
+    expect(progressArcNoTimer).toHaveAttribute("data-total", "none");
+  });
+
   it("lets completion and dashboard buttons save a recipe and start a new brew", async () => {
     const user = userEvent.setup();
     const recipe = createRecipe({
