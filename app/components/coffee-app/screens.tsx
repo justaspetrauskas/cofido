@@ -39,6 +39,7 @@ import {
   MethodIllustration,
   MotionButton,
   ScreenShell,
+  TimerRing,
 } from "./visuals";
 import styles from "../coffee-app.module.css";
 
@@ -604,9 +605,12 @@ export function BrewingScreen({
 
         <section className={styles.timerStage}>
           <AbstractMotionScene testId="ambient-scene-brewing" variant="brewing" />
-          <div className={styles.timerRing}>
+          <TimerRing
+            remainingSeconds={remainingTimerSeconds}
+            totalSeconds={currentBrewStep.timerSeconds}
+          >
             <span>{currentBrewStep.visual}</span>
-          </div>
+          </TimerRing>
           <div className={styles.timerDetails}>
             <p className={styles.panelLabel}>{VISUAL_LABELS[currentBrewStep.visual]}</p>
             <strong className={styles.timerText}>
