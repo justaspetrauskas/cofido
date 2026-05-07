@@ -218,6 +218,31 @@
   padding: 34px 0 22px;
 }
 
+.heroIntro {
+  width: min(100%, 560px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 20px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+}
+
+.heroIntro p {
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #b7a89a;
+}
+
+.heroIntro strong {
+  color: #f8f3ec;
+  font-size: 1.1rem;
+  line-height: 1.5;
+  font-weight: 560;
+}
+
 .summaryHero,
 .timerStage {
   position: relative;
@@ -401,7 +426,12 @@
   background:
     radial-gradient(circle at 20% 50%, rgba(233, 169, 101, 0.14), transparent 26%),
     radial-gradient(circle at 80% 30%, rgba(255, 246, 236, 0.09), transparent 24%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+     linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+}
+
+.methodViewport:focus-visible {
+  outline: 2px solid rgba(233, 169, 101, 0.72);
+  outline-offset: 3px;
 }
 
 .methodOrbit {

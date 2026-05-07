@@ -74,19 +74,9 @@ export function LandingScreen({
       <div className={styles.heroPanel}>
         <AbstractMotionScene testId="ambient-scene-landing" variant="landing" />
         <div className={styles.heroGlow} />
-        <div className={styles.heroMetrics}>
-          <div>
-            <span>Fast setup</span>
-            <strong>2 steps</strong>
-          </div>
-          <div>
-            <span>Live recipe</span>
-            <strong>Always visible</strong>
-          </div>
-          <div>
-            <span>Guided brew</span>
-            <strong>One action at a time</strong>
-          </div>
+        <div className={styles.heroIntro}>
+          <p>Minimal flow</p>
+          <strong>Pick a method, tweak your brew, and start in under a minute.</strong>
         </div>
       </div>
       <div className={styles.ctaStack}>
@@ -176,7 +166,6 @@ export function MethodSelectionScreen({
   onSelectMethod,
   onSetMethodSlide,
 }: MethodSelectionScreenProps) {
-  const [isMethodSliderActive, setIsMethodSliderActive] = useState(false);
   const methodDetails = getMethodDecisionDetails(activeMethod.id);
 
   return (
@@ -192,24 +181,29 @@ export function MethodSelectionScreen({
               {String(activeMethodIndex + 1).padStart(2, "0")} /{" "}
               {String(BREW_METHODS.length).padStart(2, "0")}
             </span>
-            <p className={styles.sliderHint}>Drag the ritual or drift to the edges to reveal controls.</p>
+            <p className={styles.sliderHint}>Swipe, drag, or use arrow keys to move between methods.</p>
           </div>
         </div>
         <div
           className={styles.methodViewport}
-          data-controls-visible={isMethodSliderActive}
+          aria-label="Brew method slider"
+          data-controls-visible="true"
           data-testid="method-slider-stage"
-          onBlur={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
-              setIsMethodSliderActive(false);
+          onKeyDown={(event) => {
+            if (event.key === "ArrowRight") {
+              event.preventDefault();
+              onNextMethod();
+            }
+
+            if (event.key === "ArrowLeft") {
+              event.preventDefault();
+              onPreviousMethod();
             }
           }}
-          onFocus={() => setIsMethodSliderActive(true)}
-          onMouseEnter={() => setIsMethodSliderActive(true)}
-          onMouseLeave={() => setIsMethodSliderActive(false)}
+          tabIndex={0}
         >
           <motion.div
-            animate={{ opacity: isMethodSliderActive ? 1 : 0, x: isMethodSliderActive ? 0 : -18 }}
+            animate={{ opacity: 1, x: 0 }}
             className={styles.methodControlRail}
             transition={{ type: "spring", stiffness: 190, damping: 22 }}
           >
@@ -223,7 +217,7 @@ export function MethodSelectionScreen({
             </MotionButton>
           </motion.div>
           <motion.div
-            animate={{ opacity: isMethodSliderActive ? 1 : 0, x: isMethodSliderActive ? 0 : 18 }}
+            animate={{ opacity: 1, x: 0 }}
             className={styles.methodControlRailEnd}
             transition={{ type: "spring", stiffness: 190, damping: 22 }}
           >

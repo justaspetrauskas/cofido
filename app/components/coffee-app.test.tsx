@@ -305,11 +305,18 @@ describe("CoffeeApp", () => {
     expect(screen.getByText("10 min ritual")).toBeInTheDocument();
     expect(screen.getByText("Clarity first")).toBeInTheDocument();
     expect(screen.getByText("Kettle + filter")).toBeInTheDocument();
-    expect(screen.getByTestId("method-slider-stage")).toHaveAttribute("data-controls-visible", "false");
-
-    fireEvent.mouseEnter(screen.getByTestId("method-slider-stage"));
-
     expect(screen.getByTestId("method-slider-stage")).toHaveAttribute("data-controls-visible", "true");
+
+    fireEvent.keyDown(screen.getByTestId("method-slider-stage"), {
+      key: "ArrowRight",
+      code: "ArrowRight",
+    });
+
+    expect(await screen.findByRole("button", { name: "Choose French Press" })).toBeInTheDocument();
+
+    fireEvent.keyDown(screen.getByTestId("method-slider-stage"), { key: "ArrowLeft", code: "ArrowLeft" });
+
+    expect(await screen.findByRole("button", { name: "Choose Pour-over" })).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Next method" }));
 
