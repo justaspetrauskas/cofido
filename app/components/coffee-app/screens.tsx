@@ -370,7 +370,7 @@ export function ComposerScreen({
           {missingRequiredEquipment.length > 0 ? (
             <p className={styles.controlHint}>
               Missing required equipment for {previewRecipe.methodLabel}:{" "}
-              {missingRequiredEquipment.map((equipment) => capitalize(equipment)).join(", ")}. Add gear in Advanced
+              {missingRequiredEquipment.map((equipmentItem) => capitalize(equipmentItem)).join(", ")}. Add gear in Advanced
               options or change method.
             </p>
           ) : null}

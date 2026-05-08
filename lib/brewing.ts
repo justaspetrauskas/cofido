@@ -19,6 +19,7 @@ export type RecipeConfig = {
 };
 
 export type BrewStep = {
+  guidanceKey?: "grind-beans" | "heat-water";
   title: string;
   instruction: string;
   visual: StepVisual;
@@ -125,8 +126,18 @@ function getMethodDefinition(method: BrewMethod): {
           "Uneven bed: reset to centered pours for the next pulse.",
         ],
         steps: [
-          { title: "Heat water", instruction: "Warm fresh water to a gentle boil.", visual: "steam" },
-          { title: "Grind beans", instruction: "Grind the coffee just finer than sand.", visual: "grinder" },
+          {
+            guidanceKey: "heat-water",
+            title: "Heat water",
+            instruction: "Warm fresh water to a gentle boil.",
+            visual: "steam",
+          },
+          {
+            guidanceKey: "grind-beans",
+            title: "Grind beans",
+            instruction: "Grind the coffee just finer than sand.",
+            visual: "grinder",
+          },
           { title: "Rinse filter", instruction: "Rinse the filter and warm the brewer.", visual: "kettle" },
           { title: "Add coffee", instruction: "Add the grounds and level the bed.", visual: "beans" },
           { title: "Bloom", instruction: "Wet every ground and let it breathe.", visual: "steam", timerSeconds: 45 },
@@ -151,8 +162,18 @@ function getMethodDefinition(method: BrewMethod): {
           "Too much sediment: decant immediately after press.",
         ],
         steps: [
-          { title: "Heat water", instruction: "Bring water just off the boil.", visual: "steam" },
-          { title: "Grind beans", instruction: "Use a coarse grind for a clean press.", visual: "grinder" },
+          {
+            guidanceKey: "heat-water",
+            title: "Heat water",
+            instruction: "Bring water just off the boil.",
+            visual: "steam",
+          },
+          {
+            guidanceKey: "grind-beans",
+            title: "Grind beans",
+            instruction: "Use a coarse grind for a clean press.",
+            visual: "grinder",
+          },
           { title: "Add coffee", instruction: "Place the grounds in the press.", visual: "beans" },
           { title: "Pour water", instruction: "Saturate all the grounds with care.", visual: "kettle", timerSeconds: 20 },
           { title: "Steep", instruction: "Let the coffee rest before pressing.", visual: "steam", timerSeconds: 240 },
@@ -176,8 +197,18 @@ function getMethodDefinition(method: BrewMethod): {
           "Press stalls: coarsen grind slightly and avoid overpacking.",
         ],
         steps: [
-          { title: "Heat water", instruction: "Warm water to a soft simmer.", visual: "steam" },
-          { title: "Grind beans", instruction: "Grind slightly finer than drip coffee.", visual: "grinder" },
+          {
+            guidanceKey: "heat-water",
+            title: "Heat water",
+            instruction: "Warm water to a soft simmer.",
+            visual: "steam",
+          },
+          {
+            guidanceKey: "grind-beans",
+            title: "Grind beans",
+            instruction: "Grind slightly finer than drip coffee.",
+            visual: "grinder",
+          },
           { title: "Add coffee", instruction: "Add coffee to the AeroPress chamber.", visual: "beans" },
           { title: "Bloom", instruction: "Add a splash of water and stir once.", visual: "steam", timerSeconds: 30 },
           { title: "Steep", instruction: "Top up, cap, and let the brew rest briefly.", visual: "steam", timerSeconds: 60 },
@@ -202,7 +233,12 @@ function getMethodDefinition(method: BrewMethod): {
         ],
         steps: [
           { title: "Warm the cup", instruction: "Preheat the cup for a softer landing.", visual: "cup" },
-          { title: "Grind beans", instruction: "Grind finely for a slow, even extraction.", visual: "grinder" },
+          {
+            guidanceKey: "grind-beans",
+            title: "Grind beans",
+            instruction: "Grind finely for a slow, even extraction.",
+            visual: "grinder",
+          },
           { title: "Tamp evenly", instruction: "Tamp flat and keep the puck level.", visual: "beans" },
           { title: "Pull the shot", instruction: "Extract until the stream turns pale.", visual: "steam", timerSeconds: 30 },
           { title: "Serve", instruction: "Sip while the crema is still alive.", visual: "cup" },
@@ -224,7 +260,12 @@ function getMethodDefinition(method: BrewMethod): {
           "Cloudy finish: strain through a finer filter once more.",
         ],
         steps: [
-          { title: "Grind beans", instruction: "Use a coarse grind for a smooth finish.", visual: "grinder" },
+          {
+            guidanceKey: "grind-beans",
+            title: "Grind beans",
+            instruction: "Use a coarse grind for a smooth finish.",
+            visual: "grinder",
+          },
           { title: "Add coffee", instruction: "Add grounds to a jar or brewer.", visual: "beans" },
           { title: "Add water", instruction: "Cover fully and stir until saturated.", visual: "kettle" },
           { title: "Rest cold", instruction: "Leave it in the fridge overnight.", visual: "steam", timerSeconds: 43_200 },
@@ -284,14 +325,14 @@ function adaptStepsForEquipment(steps: BrewStep[], equipment: Equipment[]) {
   const hasKettle = equipment.includes("kettle");
 
   return steps.map((step) => {
-    if (step.title === "Grind beans" && !hasGrinder) {
+    if (step.guidanceKey === "grind-beans" && !hasGrinder) {
       return {
         ...step,
         instruction: "Use pre-ground coffee and keep the dose consistent for your next cup.",
       };
     }
 
-    if (step.title === "Heat water" && !hasKettle) {
+    if (step.guidanceKey === "heat-water" && !hasKettle) {
       return {
         ...step,
         instruction: "Use hot water from a dispenser or pre-boiled source to stay on pace.",
@@ -309,7 +350,7 @@ export function createRecipe(config: RecipeConfig): Recipe {
   const coffeeGrams = Math.round(waterMl / ratio);
   const methodDefinition = getMethodDefinition(config.method);
   const steps = adaptStepsForEquipment(methodDefinition.steps, config.equipment);
-  const totalTimeSeconds = methodDefinition.steps.reduce(
+  const totalTimeSeconds = steps.reduce(
     (sum, step) => sum + (step.timerSeconds ?? 0),
     0,
   );
