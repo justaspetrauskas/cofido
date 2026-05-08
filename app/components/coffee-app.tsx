@@ -53,6 +53,7 @@ export function CoffeeApp() {
     savedRecipes,
     selectedMethod,
     setCompletionFeedback,
+    setCompletionNotes,
     setConfig,
     setQuickSetup,
     setQuickTaste,
@@ -139,6 +140,7 @@ export function CoffeeApp() {
               onBrewAgain={startFreshFlow}
               onSaveRecipe={handleSaveRecipe}
               onSetCompletionFeedback={setCompletionFeedback}
+              onSetCompletionNotes={setCompletionNotes}
             />
           ) : null}
 

@@ -725,6 +725,7 @@ type CompletionScreenProps = {
   onBrewAgain: () => void;
   onSaveRecipe: () => void;
   onSetCompletionFeedback: (feedback: BrewFeedback) => void;
+  onSetCompletionNotes: (notes: string) => void;
 };
 
 export function CompletionScreen({
@@ -732,6 +733,7 @@ export function CompletionScreen({
   onBrewAgain,
   onSaveRecipe,
   onSetCompletionFeedback,
+  onSetCompletionNotes,
 }: CompletionScreenProps) {
   const nextCupAdjustment = getNextCupAdjustment(
     completionSummary.recipe.method,
@@ -786,6 +788,19 @@ export function CompletionScreen({
               <p>{nextCupAdjustment}</p>
             </div>
           ) : null}
+          <div className={styles.controlGroup}>
+            <label className={styles.fieldLabel} htmlFor="brew-notes">
+              Brew notes
+            </label>
+            <textarea
+              className={styles.brewNotes}
+              id="brew-notes"
+              onChange={(e) => onSetCompletionNotes(e.target.value)}
+              placeholder="What made this cup stand out?"
+              rows={3}
+              value={completionSummary.notes ?? ""}
+            />
+          </div>
         </section>
 
         <div className={styles.actionRow}>
@@ -923,6 +938,11 @@ export function DashboardScreen({
                       {recipe.recipe.methodLabel} - {recipe.recipe.ratioLabel} -{" "}
                       {recipe.recipe.coffeeGrams} g
                     </p>
+                    {recipe.notes ? (
+                      <p className={styles.savedRecipeNotes} data-testid="saved-recipe-notes">
+                        {recipe.notes}
+                      </p>
+                    ) : null}
                   </div>
                   <MotionButton
                     className={styles.secondaryButton}

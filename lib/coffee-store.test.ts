@@ -41,6 +41,85 @@ describe("coffee store", () => {
     expect(useCoffeeStore.getState().activeBrew?.status).toBe("brewing");
   });
 
+  it("stores notes on the completion summary via setCompletionNotes", () => {
+    const recipe = createRecipe({
+      method: "pour-over",
+      cups: 1,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: [],
+    });
+
+    useCoffeeStore.setState({
+      ...getDefaultCoffeeState(),
+      completionSummary: {
+        recipe,
+        startedAt: 1_000,
+        completedAt: 2_000,
+        feedback: null,
+        notes: null,
+      },
+    });
+
+    useCoffeeStore.getState().setCompletionNotes("Ethiopian beans, slightly finer grind.");
+
+    expect(useCoffeeStore.getState().completionSummary?.notes).toBe(
+      "Ethiopian beans, slightly finer grind.",
+    );
+  });
+
+  it("saves notes with the recipe when saveCompletedRecipe is called", () => {
+    const recipe = createRecipe({
+      method: "aeropress",
+      cups: 1,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: ["kettle"],
+    });
+
+    useCoffeeStore.setState({
+      ...getDefaultCoffeeState(),
+      completionSummary: {
+        recipe,
+        startedAt: 1_000,
+        completedAt: 2_000,
+        feedback: "perfect",
+        notes: "Washed beans, 30s extra steep.",
+      },
+    });
+
+    useCoffeeStore.getState().saveCompletedRecipe();
+
+    const saved = useCoffeeStore.getState().savedRecipes[0];
+    expect(saved?.notes).toBe("Washed beans, 30s extra steep.");
+  });
+
+  it("saves a recipe with null notes when no notes were entered", () => {
+    const recipe = createRecipe({
+      method: "french-press",
+      cups: 2,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: ["kettle"],
+    });
+
+    useCoffeeStore.setState({
+      ...getDefaultCoffeeState(),
+      completionSummary: {
+        recipe,
+        startedAt: 1_000,
+        completedAt: 2_000,
+        feedback: null,
+        notes: null,
+      },
+    });
+
+    useCoffeeStore.getState().saveCompletedRecipe();
+
+    const saved = useCoffeeStore.getState().savedRecipes[0];
+    expect(saved?.notes).toBeNull();
+  });
+
   it("treats invalid persisted timer values as no active timer", () => {
     const recipe = createRecipe({
       method: "pour-over",

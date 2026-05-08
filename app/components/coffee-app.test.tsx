@@ -331,6 +331,7 @@ describe("CoffeeApp", () => {
         startedAt: 1_000,
         completedAt: 2_000,
         feedback: null,
+        notes: null,
       },
     });
 
@@ -427,6 +428,7 @@ describe("CoffeeApp", () => {
           name: "Weekend Press",
           createdAt: 2_000,
           feedback: "perfect",
+          notes: null,
           recipe,
         },
       ],
@@ -475,6 +477,7 @@ describe("CoffeeApp", () => {
           name: "Daily Press",
           createdAt: 3_000,
           feedback: "too-weak",
+          notes: null,
           recipe: frenchPressRecipe,
         },
         {
@@ -482,6 +485,7 @@ describe("CoffeeApp", () => {
           name: "Bright Aero",
           createdAt: 2_000,
           feedback: "perfect",
+          notes: null,
           recipe: aeropressRecipe,
         },
       ],
@@ -762,6 +766,7 @@ describe("CoffeeApp", () => {
         startedAt: 1_000,
         completedAt: 2_000,
         feedback: null,
+        notes: null,
       },
     });
 
@@ -782,5 +787,70 @@ describe("CoffeeApp", () => {
 
     await user.click(screen.getByRole("button", { name: "Start new brew" }));
     expect(await screen.findByRole("heading", { name: "Choose a brew method" })).toBeInTheDocument();
+  });
+
+  it("shows a brew notes field on the completion screen and saves notes with the recipe", async () => {
+    const user = userEvent.setup();
+    const recipe = createRecipe({
+      method: "aeropress",
+      cups: 1,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: ["kettle"],
+    });
+
+    navigationMock.reset("/?view=completion");
+    useCoffeeStore.setState({
+      ...getDefaultCoffeeState(),
+      completionSummary: {
+        recipe,
+        startedAt: 1_000,
+        completedAt: 2_000,
+        feedback: null,
+        notes: null,
+      },
+    });
+
+    render(<CoffeeApp />);
+
+    const notesField = screen.getByRole("textbox", { name: /brew notes/i });
+    expect(notesField).toBeInTheDocument();
+
+    await user.type(notesField, "Ethiopian natural, extra 10s steep.");
+    await user.click(screen.getByRole("button", { name: "Save Recipe" }));
+
+    expect(await screen.findByRole("heading", { name: "Welcome back" })).toBeInTheDocument();
+    expect(screen.getByText("Ethiopian natural, extra 10s steep.")).toBeInTheDocument();
+  });
+
+  it("does not show a notes snippet on the dashboard when no notes were saved", async () => {
+    const recipe = createRecipe({
+      method: "pour-over",
+      cups: 1,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: [],
+    });
+
+    navigationMock.reset("/?view=dashboard");
+    useCoffeeStore.setState({
+      ...getDefaultCoffeeState(),
+      savedRecipes: [
+        {
+          id: "saved-no-notes",
+          name: "Morning Pour",
+          createdAt: 1_000,
+          feedback: "perfect",
+          notes: null,
+          recipe,
+        },
+      ],
+    });
+
+    render(<CoffeeApp />);
+
+    expect(screen.getByRole("heading", { name: "Welcome back" })).toBeInTheDocument();
+    expect(screen.getAllByText("Morning Pour").length).toBeGreaterThan(0);
+    expect(screen.queryByTestId("saved-recipe-notes")).not.toBeInTheDocument();
   });
 });
