@@ -274,6 +274,32 @@ describe("CoffeeApp", () => {
     expect(screen.getByText("Skill: Intermediate")).toBeInTheDocument();
   });
 
+  it("shows and clears missing equipment guidance in composer as gear selection changes", async () => {
+    const user = userEvent.setup();
+
+    render(<CoffeeApp />);
+
+    await user.click(screen.getByRole("button", { name: "Start Brewing" }));
+    await user.click(await screen.findByRole("button", { name: "Choose Pour-over" }));
+    expect(await screen.findByRole("heading", { name: "Build your brew" })).toBeInTheDocument();
+
+    expect(
+      screen.getByText(
+        "Missing required equipment for Pour-over: Kettle, Filters. Add gear in Advanced options or change method.",
+      ),
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Advanced options" }));
+    await user.click(screen.getByRole("button", { name: "Kettle" }));
+    await user.click(screen.getByRole("button", { name: "Filters" }));
+
+    expect(
+      screen.queryByText(
+        "Missing required equipment for Pour-over: Kettle, Filters. Add gear in Advanced options or change method.",
+      ),
+    ).not.toBeInTheDocument();
+  });
+
   it("renders abstract motion scenes on the key ritual surfaces", async () => {
     const user = userEvent.setup();
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { createRecipe, formatTimer } from "@/lib/brewing";
+import { BREW_METHODS, createRecipe, formatTimer, getMissingRequiredEquipment } from "@/lib/brewing";
 
 describe("createRecipe", () => {
   it("builds a stronger two-cup pour-over recipe with a longer V60-style bloom", () => {
@@ -75,6 +75,37 @@ describe("createRecipe", () => {
       "Press stalls: coarsen grind slightly and avoid overpacking.",
     ]);
   });
+
+  it("adapts grind and heat guidance when grinder and kettle are not available", () => {
+    const recipe = createRecipe({
+      method: "pour-over",
+      cups: 1,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: ["filters"],
+    });
+
+    expect(recipe.steps.find((step) => step.title === "Heat water")?.instruction).toBe(
+      "Use hot water from a dispenser or pre-boiled source to stay on pace.",
+    );
+    expect(recipe.steps.find((step) => step.title === "Grind beans")?.instruction).toBe(
+      "Use pre-ground coffee and keep the dose consistent for your next cup.",
+    );
+  });
+
+  it("adapts grind guidance for espresso when no grinder is available", () => {
+    const recipe = createRecipe({
+      method: "espresso",
+      cups: 1,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: [],
+    });
+
+    expect(recipe.steps.find((step) => step.title === "Grind beans")?.instruction).toBe(
+      "Use pre-ground coffee and keep the dose consistent for your next cup.",
+    );
+  });
 });
 
 describe("formatTimer", () => {
@@ -85,5 +116,30 @@ describe("formatTimer", () => {
 
   it("falls back cleanly when a timer value is invalid", () => {
     expect(formatTimer(Number.NaN)).toBe("00:00");
+  });
+});
+
+describe("getMissingRequiredEquipment", () => {
+  it("returns the missing required items for the selected method", () => {
+    expect(getMissingRequiredEquipment("pour-over", [])).toEqual(["kettle", "filters"]);
+    expect(getMissingRequiredEquipment("pour-over", ["kettle"])).toEqual(["filters"]);
+    expect(getMissingRequiredEquipment("aeropress", ["kettle"])).toEqual([]);
+  });
+
+  it("returns an empty list for methods that do not require tracked equipment", () => {
+    expect(getMissingRequiredEquipment("cold-brew", [])).toEqual([]);
+  });
+
+  it("covers every configured brew method and returns stable defaults", () => {
+    const allMethods = BREW_METHODS.map((method) => method.id);
+
+    expect(allMethods).toEqual(["pour-over", "french-press", "aeropress", "espresso", "cold-brew"]);
+    expect(allMethods.map((method) => getMissingRequiredEquipment(method, []))).toEqual([
+      ["kettle", "filters"],
+      ["kettle"],
+      ["kettle"],
+      ["grinder"],
+      [],
+    ]);
   });
 });

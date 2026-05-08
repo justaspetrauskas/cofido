@@ -2,7 +2,13 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { type PanInfo } from "framer-motion";
 
-import { BREW_METHODS, createRecipe, type BrewMethod, type Equipment } from "@/lib/brewing";
+import {
+  BREW_METHODS,
+  createRecipe,
+  getMissingRequiredEquipment,
+  type BrewMethod,
+  type Equipment,
+} from "@/lib/brewing";
 import { getRemainingTimerSeconds, useCoffeeStore } from "@/lib/coffee-store";
 
 import {
@@ -143,6 +149,10 @@ export function useCoffeeAppState() {
     activeBrew && currentBrewStep ? getRecoveryMessage(activeBrew.recipe, activeBrew.currentStepIndex) : null;
 
   const activeMethod = BREW_METHODS[activeMethodIndex] ?? BREW_METHODS[0];
+  const missingRequiredEquipment = useMemo(
+    () => (selectedMethod ? getMissingRequiredEquipment(selectedMethod, config.equipment) : []),
+    [config.equipment, selectedMethod],
+  );
 
   const navigateTo = (
     nextScreen: Screen,
@@ -299,6 +309,7 @@ export function useCoffeeAppState() {
     guidedRecommendation,
     navigateTo,
     needsTimerToFinish,
+    missingRequiredEquipment,
     pauseBrew,
     previewRecipe,
     quickSetup,
