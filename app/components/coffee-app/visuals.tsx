@@ -3,7 +3,7 @@ import {
   useReducedMotion,
   type HTMLMotionProps,
 } from "framer-motion";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 export const TIMER_RING_RADIUS = 76;
 export const TIMER_RING_CIRCUMFERENCE = 2 * Math.PI * TIMER_RING_RADIUS;
@@ -12,6 +12,33 @@ import type { BrewMethod } from "@/lib/brewing";
 
 import { capitalize, type AmbientSceneVariant } from "./model";
 import styles from "../coffee-app.module.css";
+
+const COMPACT_VIEWPORT_QUERY = "(max-width: 768px)";
+
+function useLiteBackgroundMotionMode() {
+  const prefersReducedMotion = useReducedMotion();
+  const [isCompactViewport, setIsCompactViewport] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+      return;
+    }
+
+    const media = window.matchMedia(COMPACT_VIEWPORT_QUERY);
+    const update = () => {
+      setIsCompactViewport(media.matches);
+    };
+
+    update();
+    media.addEventListener("change", update);
+
+    return () => {
+      media.removeEventListener("change", update);
+    };
+  }, []);
+
+  return prefersReducedMotion || isCompactViewport;
+}
 
 export function MethodIllustration({ method }: { method: BrewMethod }) {
   const prefersReducedMotion = useReducedMotion();
@@ -417,7 +444,11 @@ const INTERACTION_SPRING = {
 };
 
 function MatisseCutouts({ testId = "matisse-cutouts" }: { testId?: string }) {
-  const prefersReducedMotion = useReducedMotion();
+  const liteBackgroundMotion = useLiteBackgroundMotionMode();
+
+  if (liteBackgroundMotion) {
+    return null;
+  }
 
   return (
     <div
@@ -430,16 +461,12 @@ function MatisseCutouts({ testId = "matisse-cutouts" }: { testId?: string }) {
         <motion.span
           key={shape}
           className={`${styles.cutout} ${styles[`cutout${capitalize(shape)}`]}`}
-          animate={
-            prefersReducedMotion
-              ? undefined
-              : {
-                  rotate: [0, index % 2 === 0 ? 10 : -10, index % 2 === 0 ? -4 : 4, 0],
-                  x: [0, index % 2 === 0 ? 28 : -24, index % 2 === 0 ? -12 : 10, 0],
-                  y: [0, -24 + index * 6, 16 - index * 3, 0],
-                  scale: [1, 1.04, 0.97, 1],
-                }
-          }
+          animate={{
+            rotate: [0, index % 2 === 0 ? 10 : -10, index % 2 === 0 ? -4 : 4, 0],
+            x: [0, index % 2 === 0 ? 28 : -24, index % 2 === 0 ? -12 : 10, 0],
+            y: [0, -24 + index * 6, 16 - index * 3, 0],
+            scale: [1, 1.04, 0.97, 1],
+          }}
           transition={{
             duration: 16 + index * 1.2,
             repeat: Infinity,
@@ -453,57 +480,52 @@ function MatisseCutouts({ testId = "matisse-cutouts" }: { testId?: string }) {
 }
 
 export function PersistentMotionField() {
-  const prefersReducedMotion = useReducedMotion();
+  const liteBackgroundMotion = useLiteBackgroundMotionMode();
 
   return (
     <div
       aria-hidden="true"
       className={styles.persistentMotionField}
       data-persistent="true"
+      data-performance-mode={liteBackgroundMotion ? "lite" : "full"}
       data-testid="persistent-motion-field"
     >
       <MatisseCutouts />
-      <motion.div
-        className={styles.screenFlow}
-        animate={
-          prefersReducedMotion
-            ? undefined
-            : {
-                opacity: [0.16, 0.28, 0.14],
-                scaleX: [1, 1.12, 0.94, 1],
-                x: [0, 40, -28, 0],
-                y: [0, -24, 18, 0],
-              }
-        }
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className={styles.screenMist}
-        animate={
-          prefersReducedMotion
-            ? undefined
-            : {
-                opacity: [0.1, 0.22, 0.12],
-                x: [0, -34, 24, 0],
-                y: [0, 24, -30, 0],
-                scale: [1, 1.05, 0.98, 1],
-              }
-        }
-        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className={styles.screenAura}
-        animate={
-          prefersReducedMotion
-            ? undefined
-            : {
-                scale: [1, 1.03, 1],
-                x: [0, 22, -16, 0],
-                y: [0, -18, 12, 0],
-              }
-        }
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-      />
+      {liteBackgroundMotion ? (
+        <div className={styles.screenAura} />
+      ) : (
+        <>
+          <motion.div
+            className={styles.screenFlow}
+            animate={{
+              opacity: [0.16, 0.28, 0.14],
+              scaleX: [1, 1.12, 0.94, 1],
+              x: [0, 40, -28, 0],
+              y: [0, -24, 18, 0],
+            }}
+            transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className={styles.screenMist}
+            animate={{
+              opacity: [0.1, 0.22, 0.12],
+              x: [0, -34, 24, 0],
+              y: [0, 24, -30, 0],
+              scale: [1, 1.05, 0.98, 1],
+            }}
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <motion.div
+            className={styles.screenAura}
+            animate={{
+              scale: [1, 1.03, 1],
+              x: [0, 22, -16, 0],
+              y: [0, -18, 12, 0],
+            }}
+            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </>
+      )}
     </div>
   );
 }

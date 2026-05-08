@@ -177,6 +177,28 @@ describe("CoffeeApp", () => {
     expect(screen.getByTestId("screen-shell")).toHaveAttribute("data-art-direction", "matisse");
   });
 
+  it("uses a lighter background motion mode on compact viewports", () => {
+    const originalMatchMedia = window.matchMedia;
+
+    window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+      matches: query.includes("max-width: 768px"),
+      media: query,
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+
+    render(<CoffeeApp />);
+
+    expect(screen.getByTestId("persistent-motion-field")).toHaveAttribute("data-performance-mode", "lite");
+    expect(screen.queryByTestId("matisse-cutouts")).not.toBeInTheDocument();
+
+    window.matchMedia = originalMatchMedia;
+  });
+
   it("reads deep links and browser history from route state", async () => {
     navigationMock.reset("/?view=compose&method=french-press");
 
