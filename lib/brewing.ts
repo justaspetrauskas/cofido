@@ -76,6 +76,13 @@ export const EQUIPMENT_OPTIONS: Equipment[] = ["grinder", "kettle", "scale", "fi
 export const CUP_SIZES: CupSize[] = [1, 2, 4];
 
 const WATER_PER_CUP_ML = 240;
+const METHOD_REQUIRED_EQUIPMENT: Record<BrewMethod, Equipment[]> = {
+  "pour-over": ["kettle", "filters"],
+  "french-press": ["kettle"],
+  aeropress: ["kettle"],
+  espresso: ["grinder"],
+  "cold-brew": [],
+};
 
 function clampStrength(strength: number) {
   return Math.max(0, Math.min(100, Math.round(strength)));
@@ -268,12 +275,40 @@ export function formatTimer(totalSeconds: number) {
   return `${minutes}:${seconds}`;
 }
 
+export function getMissingRequiredEquipment(method: BrewMethod, equipment: Equipment[]) {
+  return METHOD_REQUIRED_EQUIPMENT[method].filter((requiredEquipment) => !equipment.includes(requiredEquipment));
+}
+
+function adaptStepsForEquipment(steps: BrewStep[], equipment: Equipment[]) {
+  const hasGrinder = equipment.includes("grinder");
+  const hasKettle = equipment.includes("kettle");
+
+  return steps.map((step) => {
+    if (step.title === "Grind beans" && !hasGrinder) {
+      return {
+        ...step,
+        instruction: "Use pre-ground coffee and keep the dose consistent for your next cup.",
+      };
+    }
+
+    if (step.title === "Heat water" && !hasKettle) {
+      return {
+        ...step,
+        instruction: "Use hot water from a dispenser or pre-boiled source to stay on pace.",
+      };
+    }
+
+    return step;
+  });
+}
+
 export function createRecipe(config: RecipeConfig): Recipe {
   const strength = clampStrength(config.strength);
   const ratio = getRatioFromStrength(strength);
   const waterMl = config.cups * WATER_PER_CUP_ML;
   const coffeeGrams = Math.round(waterMl / ratio);
   const methodDefinition = getMethodDefinition(config.method);
+  const steps = adaptStepsForEquipment(methodDefinition.steps, config.equipment);
   const totalTimeSeconds = methodDefinition.steps.reduce(
     (sum, step) => sum + (step.timerSeconds ?? 0),
     0,
@@ -290,7 +325,7 @@ export function createRecipe(config: RecipeConfig): Recipe {
     grindSize: methodDefinition.grindSize,
     waterTemperatureC: methodDefinition.waterTemperatureC,
     totalTimeSeconds,
-    steps: methodDefinition.steps,
+    steps,
     focusVariables: methodDefinition.focusVariables,
     diagnostics: methodDefinition.diagnostics,
   };

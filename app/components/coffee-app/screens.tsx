@@ -295,6 +295,7 @@ export function MethodSelectionScreen({
 
 type ComposerScreenProps = {
   config: ComposerConfig;
+  missingRequiredEquipment: Equipment[];
   onChangeMethod: () => void;
   onStartBrew: () => void;
   onToggleEquipment: (equipment: Equipment) => void;
@@ -307,6 +308,7 @@ type ComposerScreenProps = {
 
 export function ComposerScreen({
   config,
+  missingRequiredEquipment,
   onChangeMethod,
   onStartBrew,
   onToggleEquipment,
@@ -365,6 +367,13 @@ export function ComposerScreen({
             {previewRecipe.grindSize} grind, {previewRecipe.waterTemperatureC} C water,{" "}
             {previewRecipe.steps.length} guided steps.
           </p>
+          {missingRequiredEquipment.length > 0 ? (
+            <p className={styles.controlHint}>
+              Missing required equipment for {previewRecipe.methodLabel}:{" "}
+              {missingRequiredEquipment.map((equipment) => capitalize(equipment)).join(", ")}. Add gear in Advanced
+              options or change method.
+            </p>
+          ) : null}
         </section>
 
         <section className={styles.methodCuePanel}>

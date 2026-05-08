@@ -75,6 +75,23 @@ describe("createRecipe", () => {
       "Press stalls: coarsen grind slightly and avoid overpacking.",
     ]);
   });
+
+  it("adapts grind and heat guidance when grinder and kettle are not available", () => {
+    const recipe = createRecipe({
+      method: "pour-over",
+      cups: 1,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: ["filters"],
+    });
+
+    expect(recipe.steps.find((step) => step.title === "Heat water")?.instruction).toBe(
+      "Use hot water from a dispenser or pre-boiled source to stay on pace.",
+    );
+    expect(recipe.steps.find((step) => step.title === "Grind beans")?.instruction).toBe(
+      "Use pre-ground coffee and keep the dose consistent for your next cup.",
+    );
+  });
 });
 
 describe("formatTimer", () => {

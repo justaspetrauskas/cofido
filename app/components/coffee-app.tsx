@@ -39,6 +39,7 @@ export function CoffeeApp() {
     navigateTo,
     needsTimerToFinish,
     nextStepTitle,
+    missingRequiredEquipment,
     pauseBrew,
     previewRecipe,
     quickSetup,
@@ -104,6 +105,7 @@ export function CoffeeApp() {
               onChangeMethod={() => navigateTo("method", { method: selectedMethod })}
               onStartBrew={handleStartBrew}
               onToggleEquipment={handleToggleEquipment}
+              missingRequiredEquipment={missingRequiredEquipment}
               previewRecipe={previewRecipe}
               recommendation={guidedRecommendation}
               setConfig={setConfig}
