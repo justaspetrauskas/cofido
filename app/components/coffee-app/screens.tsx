@@ -33,6 +33,7 @@ import {
   capitalize,
   getBrewRatioPreset,
   getMethodDecisionDetails,
+  getNextCupAdjustment,
 } from "./model";
 import {
   AbstractMotionScene,
@@ -696,6 +697,11 @@ export function CompletionScreen({
   onSaveRecipe,
   onSetCompletionFeedback,
 }: CompletionScreenProps) {
+  const nextCupAdjustment = getNextCupAdjustment(
+    completionSummary.recipe.method,
+    completionSummary.feedback,
+  );
+
   return (
     <ScreenShell
       eyebrow="Complete"
@@ -738,6 +744,12 @@ export function CompletionScreen({
               ))}
             </div>
           </div>
+          {nextCupAdjustment ? (
+            <div className={styles.recommendationBanner}>
+              <span className={styles.methodBadge}>Fix my next cup</span>
+              <p>{nextCupAdjustment}</p>
+            </div>
+          ) : null}
         </section>
 
         <div className={styles.actionRow}>
