@@ -739,6 +739,14 @@ describe("CoffeeApp", () => {
 
     render(<CoffeeApp />);
 
+    expect(screen.queryByText("Fix my next cup")).not.toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: "Too weak" }));
+    expect(screen.getByText("Fix my next cup")).toBeInTheDocument();
+    expect(screen.getByText("Steep 30 seconds longer next time.")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Too strong" }));
+    expect(screen.getByText("Use a slightly coarser grind next time.")).toBeInTheDocument();
+
     await user.click(screen.getByRole("button", { name: "Save Recipe" }));
     expect(await screen.findByRole("heading", { name: "Welcome back" })).toBeInTheDocument();
     expect(screen.getByText("French Press for 2")).toBeInTheDocument();

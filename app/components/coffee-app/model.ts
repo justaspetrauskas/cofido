@@ -300,6 +300,37 @@ export function getAdaptiveRecommendation(
   };
 }
 
+const NEXT_CUP_ADJUSTMENTS: Record<BrewMethod, Record<Exclude<BrewFeedback, "perfect">, string>> = {
+  "pour-over": {
+    "too-weak": "Grind a little finer next time.",
+    "too-strong": "Grind a little coarser next time.",
+  },
+  "french-press": {
+    "too-weak": "Steep 30 seconds longer next time.",
+    "too-strong": "Use a slightly coarser grind next time.",
+  },
+  aeropress: {
+    "too-weak": "Steep 15 seconds longer next time.",
+    "too-strong": "Steep 10 seconds less next time.",
+  },
+  espresso: {
+    "too-weak": "Grind finer for a slower shot next time.",
+    "too-strong": "Grind slightly coarser for a faster shot next time.",
+  },
+  "cold-brew": {
+    "too-weak": "Steep 2 hours longer next time.",
+    "too-strong": "Dilute with a bit more water next time.",
+  },
+};
+
+export function getNextCupAdjustment(method: BrewMethod, feedback: BrewFeedback | null) {
+  if (!feedback || feedback === "perfect") {
+    return null;
+  }
+
+  return NEXT_CUP_ADJUSTMENTS[method][feedback];
+}
+
 export function getRecentWin(savedRecipes: SavedRecipe[]) {
   return savedRecipes.find((recipe) => recipe.feedback === "perfect") ?? null;
 }
