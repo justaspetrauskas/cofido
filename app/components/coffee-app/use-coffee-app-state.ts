@@ -45,6 +45,7 @@ export function useCoffeeAppState() {
   const resumeBrew = useCoffeeStore((state) => state.resumeBrew);
   const skipTimer = useCoffeeStore((state) => state.skipTimer);
   const setCompletionFeedback = useCoffeeStore((state) => state.setCompletionFeedback);
+  const setCompletionNotes = useCoffeeStore((state) => state.setCompletionNotes);
   const saveCompletedRecipe = useCoffeeStore((state) => state.saveCompletedRecipe);
   const dismissCompletion = useCoffeeStore((state) => state.dismissCompletion);
   const clearActiveBrew = useCoffeeStore((state) => state.clearActiveBrew);
@@ -323,6 +324,7 @@ export function useCoffeeAppState() {
     savedRecipes,
     selectedMethod,
     setCompletionFeedback,
+    setCompletionNotes,
     setConfig,
     setQuickSetup,
     setQuickTaste,

@@ -23,6 +23,7 @@ export type SavedRecipe = {
   name: string;
   createdAt: number;
   feedback: BrewFeedback | null;
+  notes: string | null;
   recipe: Recipe;
 };
 
@@ -31,6 +32,7 @@ export type CompletionSummary = {
   startedAt: number;
   completedAt: number;
   feedback: BrewFeedback | null;
+  notes: string | null;
 };
 
 type CoffeeState = {
@@ -46,6 +48,7 @@ type CoffeeActions = {
   resumeBrew: (now?: number) => void;
   skipTimer: () => void;
   setCompletionFeedback: (feedback: BrewFeedback) => void;
+  setCompletionNotes: (notes: string) => void;
   saveCompletedRecipe: (name?: string, now?: number) => void;
   dismissCompletion: () => void;
   clearActiveBrew: () => void;
@@ -138,6 +141,7 @@ export function getDefaultCoffeeState(): CoffeeStore {
               startedAt: state.activeBrew.startedAt,
               completedAt: getNow(now),
               feedback: null,
+              notes: null,
             },
           };
         }
@@ -225,6 +229,21 @@ export function getDefaultCoffeeState(): CoffeeStore {
         };
       });
     },
+    setCompletionNotes(notes) {
+      useCoffeeStore.setState((state) => {
+        if (!state.completionSummary) {
+          return state;
+        }
+
+        return {
+          ...state,
+          completionSummary: {
+            ...state.completionSummary,
+            notes,
+          },
+        };
+      });
+    },
     saveCompletedRecipe(name, now) {
       useCoffeeStore.setState((state) => {
         if (!state.completionSummary) {
@@ -236,6 +255,7 @@ export function getDefaultCoffeeState(): CoffeeStore {
           name: name ?? getSavedRecipeName(state.completionSummary.recipe),
           createdAt: getNow(now),
           feedback: state.completionSummary.feedback,
+          notes: state.completionSummary.notes,
           recipe: state.completionSummary.recipe,
         };
 
