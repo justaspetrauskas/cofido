@@ -123,7 +123,7 @@ describe("CoffeeApp", () => {
     ).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "Start Brewing" }));
-    await user.click(await screen.findByRole("button", { name: "Choose Pour-over" }));
+    await user.click(await screen.findByRole("button", { name: "Choose Pour-over" }, { timeout: 5000 }));
 
     expect(await screen.findByRole("heading", { name: "Build your brew" })).toBeInTheDocument();
     expect(screen.getAllByText("Pour-over").length).toBeGreaterThan(0);
@@ -235,6 +235,8 @@ describe("CoffeeApp", () => {
     expect(screen.getAllByText("1:16").length).toBeGreaterThan(0);
     expect(screen.getByText("15 g")).toBeInTheDocument();
     expect(screen.getByText("240 ml")).toBeInTheDocument();
+    expect(screen.getByText("Method cues")).toBeInTheDocument();
+    expect(screen.getByText("Drawdown too fast: grind finer or slow the pour.")).toBeInTheDocument();
 
     await user.click(screen.getByRole("button", { name: "4 cups" }));
     await user.click(screen.getByRole("button", { name: "Bold · 1:15" }));

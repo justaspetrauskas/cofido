@@ -30,6 +30,16 @@ describe("createRecipe", () => {
     ]);
     expect(recipe.steps.find((step) => step.title === "Bloom")?.timerSeconds).toBe(45);
     expect(recipe.totalTimeSeconds).toBe(210);
+    expect(recipe.focusVariables).toEqual([
+      "Bloom time: 30-45s even saturation",
+      "Pour flow: steady circles with gentle pulses",
+      "Drawdown target: finish in 2:45-3:30",
+    ]);
+    expect(recipe.diagnostics).toEqual([
+      "Drawdown too fast: grind finer or slow the pour.",
+      "Drawdown too slow: grind coarser or reduce agitation.",
+      "Uneven bed: reset to centered pours for the next pulse.",
+    ]);
   });
 
   it("uses a fuller AeroPress steep-and-press timing flow", () => {
@@ -54,6 +64,16 @@ describe("createRecipe", () => {
     expect(recipe.steps.find((step) => step.title === "Steep")?.timerSeconds).toBe(60);
     expect(recipe.steps.find((step) => step.title === "Press")?.timerSeconds).toBe(30);
     expect(recipe.totalTimeSeconds).toBe(120);
+    expect(recipe.focusVariables).toEqual([
+      "Steep time: 60-90s before pressing",
+      "Press speed: 20-30s gentle pressure",
+      "Bypass water: dilute after press to taste",
+    ]);
+    expect(recipe.diagnostics).toEqual([
+      "Cup tastes sharp: steep longer or use hotter water.",
+      "Cup tastes bitter: shorten steep or press sooner.",
+      "Press stalls: coarsen grind slightly and avoid overpacking.",
+    ]);
   });
 });
 

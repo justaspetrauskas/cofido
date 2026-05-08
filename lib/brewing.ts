@@ -35,6 +35,8 @@ export type Recipe = RecipeConfig & {
   waterTemperatureC: number;
   totalTimeSeconds: number;
   steps: BrewStep[];
+  focusVariables: string[];
+  diagnostics: string[];
 };
 
 export const BREW_METHODS: Array<{
@@ -96,6 +98,8 @@ function getMethodDefinition(method: BrewMethod): {
   waterTemperatureC: number;
   grindSize: string;
   steps: BrewStep[];
+  focusVariables: string[];
+  diagnostics: string[];
 } {
   switch (method) {
     case "pour-over":
@@ -103,6 +107,16 @@ function getMethodDefinition(method: BrewMethod): {
         label: "Pour-over",
         waterTemperatureC: 95,
         grindSize: "Medium-fine",
+        focusVariables: [
+          "Bloom time: 30-45s even saturation",
+          "Pour flow: steady circles with gentle pulses",
+          "Drawdown target: finish in 2:45-3:30",
+        ],
+        diagnostics: [
+          "Drawdown too fast: grind finer or slow the pour.",
+          "Drawdown too slow: grind coarser or reduce agitation.",
+          "Uneven bed: reset to centered pours for the next pulse.",
+        ],
         steps: [
           { title: "Heat water", instruction: "Warm fresh water to a gentle boil.", visual: "steam" },
           { title: "Grind beans", instruction: "Grind the coffee just finer than sand.", visual: "grinder" },
@@ -119,6 +133,16 @@ function getMethodDefinition(method: BrewMethod): {
         label: "French Press",
         waterTemperatureC: 94,
         grindSize: "Coarse",
+        focusVariables: [
+          "Steep time: 4:00 baseline with full immersion",
+          "Crust break: stir gently after steeping",
+          "Plunge pace: 15-20s with light pressure",
+        ],
+        diagnostics: [
+          "Cup feels thin: extend steep by 30s.",
+          "Cup tastes bitter: steep shorter or grind coarser.",
+          "Too much sediment: decant immediately after press.",
+        ],
         steps: [
           { title: "Heat water", instruction: "Bring water just off the boil.", visual: "steam" },
           { title: "Grind beans", instruction: "Use a coarse grind for a clean press.", visual: "grinder" },
@@ -134,6 +158,16 @@ function getMethodDefinition(method: BrewMethod): {
         label: "AeroPress",
         waterTemperatureC: 92,
         grindSize: "Medium",
+        focusVariables: [
+          "Steep time: 60-90s before pressing",
+          "Press speed: 20-30s gentle pressure",
+          "Bypass water: dilute after press to taste",
+        ],
+        diagnostics: [
+          "Cup tastes sharp: steep longer or use hotter water.",
+          "Cup tastes bitter: shorten steep or press sooner.",
+          "Press stalls: coarsen grind slightly and avoid overpacking.",
+        ],
         steps: [
           { title: "Heat water", instruction: "Warm water to a soft simmer.", visual: "steam" },
           { title: "Grind beans", instruction: "Grind slightly finer than drip coffee.", visual: "grinder" },
@@ -149,6 +183,16 @@ function getMethodDefinition(method: BrewMethod): {
         label: "Espresso",
         waterTemperatureC: 93,
         grindSize: "Fine",
+        focusVariables: [
+          "Dose and yield: keep ratio near 1:2",
+          "Shot time target: 25-30s",
+          "Puck prep: even distribution and level tamp",
+        ],
+        diagnostics: [
+          "Shot runs fast: grind finer or increase dose.",
+          "Shot runs slow: grind coarser or reduce dose.",
+          "Sour then bitter swings: improve puck prep consistency.",
+        ],
         steps: [
           { title: "Warm the cup", instruction: "Preheat the cup for a softer landing.", visual: "cup" },
           { title: "Grind beans", instruction: "Grind finely for a slow, even extraction.", visual: "grinder" },
@@ -162,6 +206,16 @@ function getMethodDefinition(method: BrewMethod): {
         label: "Cold Brew",
         waterTemperatureC: 20,
         grindSize: "Coarse",
+        focusVariables: [
+          "Steep window: 12-16 hours refrigerated",
+          "Brew style: concentrate then dilute to taste",
+          "Grind size: coarse for cleaner filtering",
+        ],
+        diagnostics: [
+          "Cup tastes weak: steep longer or use less dilution.",
+          "Cup tastes harsh: shorten steep or dilute more.",
+          "Cloudy finish: strain through a finer filter once more.",
+        ],
         steps: [
           { title: "Grind beans", instruction: "Use a coarse grind for a smooth finish.", visual: "grinder" },
           { title: "Add coffee", instruction: "Add grounds to a jar or brewer.", visual: "beans" },
@@ -237,5 +291,7 @@ export function createRecipe(config: RecipeConfig): Recipe {
     waterTemperatureC: methodDefinition.waterTemperatureC,
     totalTimeSeconds,
     steps: methodDefinition.steps,
+    focusVariables: methodDefinition.focusVariables,
+    diagnostics: methodDefinition.diagnostics,
   };
 }
