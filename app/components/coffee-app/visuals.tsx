@@ -443,9 +443,13 @@ const INTERACTION_SPRING = {
   mass: 0.72,
 };
 
-function MatisseCutouts({ testId = "matisse-cutouts" }: { testId?: string }) {
-  const liteBackgroundMotion = useLiteBackgroundMotionMode();
-
+function MatisseCutouts({
+  liteBackgroundMotion,
+  testId = "matisse-cutouts",
+}: {
+  liteBackgroundMotion: boolean;
+  testId?: string;
+}) {
   if (liteBackgroundMotion) {
     return null;
   }
@@ -490,7 +494,7 @@ export function PersistentMotionField() {
       data-performance-mode={liteBackgroundMotion ? "lite" : "full"}
       data-testid="persistent-motion-field"
     >
-      <MatisseCutouts />
+      <MatisseCutouts liteBackgroundMotion={liteBackgroundMotion} />
       {liteBackgroundMotion ? (
         <div className={styles.screenAura} />
       ) : (
