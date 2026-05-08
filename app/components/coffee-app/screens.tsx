@@ -367,6 +367,33 @@ export function ComposerScreen({
           </p>
         </section>
 
+        <section className={styles.methodCuePanel}>
+          <div className={styles.sectionHeader}>
+            <div>
+              <p className={styles.panelLabel}>Method cues</p>
+              <strong>Variables and diagnostics for this method</strong>
+            </div>
+          </div>
+          <div className={styles.methodCueGrid}>
+            <div className={styles.methodCueColumn}>
+              <span className={styles.fieldLabel}>Focus variables</span>
+              <ul className={styles.methodCueList}>
+                {previewRecipe.focusVariables.map((variable) => (
+                  <li key={variable}>{variable}</li>
+                ))}
+              </ul>
+            </div>
+            <div className={styles.methodCueColumn}>
+              <span className={styles.fieldLabel}>Quick diagnostics</span>
+              <ul className={styles.methodCueList}>
+                {previewRecipe.diagnostics.map((diagnostic) => (
+                  <li key={diagnostic}>{diagnostic}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
+
         <section className={styles.controlPanel}>
           <div className={styles.controlGroup}>
             <span className={styles.fieldLabel}>Cup size</span>

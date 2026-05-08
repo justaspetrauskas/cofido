@@ -182,6 +182,7 @@
 .heroPanel,
 .quickStartPanel,
 .summaryHero,
+.methodCuePanel,
 .controlPanel,
 .stepPreviewCard,
 .dashboardInsight,
@@ -197,6 +198,7 @@
 .heroPanel::before,
 .quickStartPanel::before,
 .summaryHero::before,
+.methodCuePanel::before,
 .controlPanel::before,
 .stepPreviewCard::before,
 .dashboardInsight::before,
@@ -629,6 +631,7 @@
 }
 
 .summaryHero,
+.methodCuePanel,
 .controlPanel,
 .stepPreviewCard,
 .dashboardHero,
@@ -639,6 +642,7 @@
 }
 
 .summaryHero,
+.methodCuePanel,
 .controlPanel,
 .stepPreviewCard,
 .dashboardHero,
@@ -707,6 +711,34 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.methodCuePanel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.methodCueGrid {
+  display: grid;
+  gap: 14px;
+}
+
+.methodCueColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.methodCueList {
+  margin: 0;
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #d9cdc1;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .controlGroup {
@@ -1066,6 +1098,7 @@
   .heroPanel,
   .quickStartPanel,
   .summaryHero,
+  .methodCuePanel,
   .controlPanel,
   .stepPreviewCard,
   .dashboardInsight,
@@ -1095,6 +1128,10 @@
 }
 
 @media (min-width: 721px) {
+  .methodCueGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .methodSlide {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
   }
