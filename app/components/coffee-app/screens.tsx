@@ -938,6 +938,14 @@ export function DashboardScreen({
                       {recipe.recipe.methodLabel} - {recipe.recipe.ratioLabel} -{" "}
                       {recipe.recipe.coffeeGrams} g
                     </p>
+                    {recipe.feedback ? (
+                      <span
+                        className={styles.methodBadge}
+                        data-testid={`feedback-badge-${recipe.id}`}
+                      >
+                        {FEEDBACK_OPTIONS.find((opt) => opt.value === recipe.feedback)?.label}
+                      </span>
+                    ) : null}
                     {recipe.notes ? (
                       <p className={styles.savedRecipeNotes} data-testid="saved-recipe-notes">
                         {recipe.notes}
