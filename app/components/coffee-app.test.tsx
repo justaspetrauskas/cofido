@@ -823,6 +823,62 @@ describe("CoffeeApp", () => {
     expect(screen.getByText("Ethiopian natural, extra 10s steep.")).toBeInTheDocument();
   });
 
+  it("shows a feedback badge on each saved recipe in the dashboard", () => {
+    const recipe = createRecipe({
+      method: "pour-over",
+      cups: 1,
+      skillLevel: "beginner",
+      strength: 55,
+      equipment: [],
+    });
+
+    navigationMock.reset("/?view=dashboard");
+    useCoffeeStore.setState({
+      ...getDefaultCoffeeState(),
+      savedRecipes: [
+        {
+          id: "saved-perfect",
+          name: "Morning Pour",
+          createdAt: 1_000,
+          feedback: "perfect",
+          notes: null,
+          recipe,
+        },
+        {
+          id: "saved-weak",
+          name: "Weak Cup",
+          createdAt: 2_000,
+          feedback: "too-weak",
+          notes: null,
+          recipe,
+        },
+        {
+          id: "saved-strong",
+          name: "Strong Shot",
+          createdAt: 3_000,
+          feedback: "too-strong",
+          notes: null,
+          recipe,
+        },
+        {
+          id: "saved-null",
+          name: "Unrated Cup",
+          createdAt: 4_000,
+          feedback: null,
+          notes: null,
+          recipe,
+        },
+      ],
+    });
+
+    render(<CoffeeApp />);
+
+    expect(screen.getByTestId("feedback-badge-saved-perfect")).toHaveTextContent("Perfect");
+    expect(screen.getByTestId("feedback-badge-saved-weak")).toHaveTextContent("Too weak");
+    expect(screen.getByTestId("feedback-badge-saved-strong")).toHaveTextContent("Too strong");
+    expect(screen.queryByTestId("feedback-badge-saved-null")).not.toBeInTheDocument();
+  });
+
   it("does not show a notes snippet on the dashboard when no notes were saved", async () => {
     const recipe = createRecipe({
       method: "pour-over",
